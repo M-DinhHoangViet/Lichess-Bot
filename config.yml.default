@@ -22,7 +22,7 @@ engine:                                   # Engine settings.
     Hash: 256                             # Max memory (in megabytes) the engine can allocate.
   variants:
     enabled: true                        # Activate seperate engine for other chess variants than standard and chess960.
-    dir: "./engines"                      # Directory containing the engine.
+    dir: "."                      # Directory containing the engine.
     name: "engine_name"               # Binary name of the engine to use.
     ponder: true                          # Think on opponent's time.
     silence_stderr: false                 # Suppresses stderr output.
@@ -109,12 +109,12 @@ challenge:                                # Incoming challenges. (Commenting all
     - bullet
     - blitz
     - rapid
-#   - classical
+    - classical
   bot_modes:                              # Game modes to accept against BOTs.
 #   - casual                              # Unrated games.
     - rated                               # Rated games
   human_modes:                            # Game modes to accept against humans.
-    - casual                              # Unrated games.
+#   - casual                              # Unrated games.
     - rated                               # Rated games
 
 matchmaking:
