@@ -240,7 +240,7 @@ class UserInterface:
             print('Matchmaking is not currently running ...')
 
     def _help(self) -> None:
-        print('These commands are supported by LichessBOT-Việt:\n')
+        print('These commands are supported by BotLi:\n')
         for key, value in COMMANDS.items():
             print(f'{key:11}\t\t# {value}')
 
