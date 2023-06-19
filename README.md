@@ -9,7 +9,7 @@ In addition, LichessBOT-Việt can autonomously challenge other bots in any vari
 # How to install
 
 - **NOTE: Only Python 3.10 or later is supported!**
-- Download the repo into LichessBOT-Việt directory: `git clone https://github.com/Torom/BotLi.git`
+- Download the repo into LichessBOT-Việt directory: `https://github.com/M-DinhHoangViet/LichessBOT-Viet.git`
 - Navigate to the directory in cmd/Terminal: `cd LichessBot-Việt`
 - Copy `config.yml.default` to `config.yml`
 
