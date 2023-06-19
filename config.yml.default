@@ -135,13 +135,12 @@ matchmaking:
 # min_rating_diff: 0                      # Minimum rating distance to opponent. (Commenting allowed)
 # max_rating_diff: 300                    # Maximum rating distance to opponent. (Commenting allowed)
   delay: 10                               # Time in seconds the bot must be idle before a new challenge is started.
-  multiplier: 15                          # Multiplier for calculating timeouts in matchmaking. Higher values lead to a wider range of opponents.
+  multiplier: 14                          # Multiplier for calculating timeouts in matchmaking. Higher values lead to a wider range of opponents.
 
 messages:
   # Optional substitution keywords (include curly braces):
   #   {opponent} to insert the opponent's name
   #   {me} to insert our name
-  #   {rated} to insert rated
   #   {engine} to insert engine name
   #   {cpu} to insert CPU information
   #   {ram} to insert RAM size
