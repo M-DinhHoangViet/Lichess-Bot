@@ -141,7 +141,7 @@ class Chatter:
 
     def _format_message(self, message: str) -> str:
         opponent_username = self.game_info.black_name if self.game_info.is_white else self.game_info.white_name
-        mapping = defaultdict(str, {'opponent': opponent_username, 'me': self.api.username, 'rated': self.api.user_rated,
+        mapping = defaultdict(str, {'opponent': opponent_username, 'me': self.api.username,
                                     'engine': self.lichess_game.engine.id['name'], 'cpu': self.cpu_message,
                                     'ram': self.ram_message})
         return message.format_map(mapping)
