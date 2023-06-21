@@ -141,6 +141,8 @@ messages:
   # Optional substitution keywords (include curly braces):
   #   {opponent} to insert the opponent's name
   #   {me} to insert our name
+  #   {white} to insert information about white piece player
+  #   {black} to insert information about black piece player
   #   {engine} to insert engine name
   #   {cpu} to insert CPU information
   #   {ram} to insert RAM size
