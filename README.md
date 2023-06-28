@@ -10,7 +10,7 @@ In addition, LichessBOT-Việt can autonomously challenge other bots in any vari
 
 - **NOTE: Only Python 3.10 or later is supported!**
 - Download the repo into LichessBOT-Việt directory: `https://github.com/M-DinhHoangViet/LichessBOT-Viet.git`
-- Navigate to the directory in cmd/Terminal: `cd LichessBot-Việt`
+- Navigate to the directory in cmd/Terminal: `cd LichessBot-Viet`
 - Copy `config.yml.default` to `config.yml`
 
 Install all requirements:
@@ -141,7 +141,7 @@ If the service should run with matchmaking the `--matchmaking` flag must be appe
 **Note**: If you want the bot to run in matchmaking mode for a long time, it is recommended to set the `matchmaking` `delay` higher to avoid problems with the Lichess rate limit. I recommend the following formula: `delay = 430 - 2 * initial_time - 160 * increment`
 
 ## Acknowledgements
-Thanks to the Lichess team, especially T. Alexander Lystad and Thibault Duplessis for working with the LeelaChessZero team to get this API up. Thanks to the [Niklas Fiekas](https://github.com/niklasf) and his [python-chess](https://github.com/niklasf/python-chess) code which allows engine communication seamlessly. In addition, the idea of this bot is based on [ShailChoksi/lichess-bot](https://github.com/ShailChoksi/lichess-bot).
+Thanks to the Lichess team, especially T. Alexander Lystad and Thibault Duplessis for working with the LeelaChessZero team to get this API up. Thanks to the [Torom](https://github.com/Torom)made to [Torom/BotLi](https://github.com/Torom/BotLi) is original. Thanks to the [Niklas Fiekas](https://github.com/niklasf) and his [python-chess](https://github.com/niklasf/python-chess) code which allows engine communication seamlessly. In addition, the idea of this bot is based on [ShailChoksi/lichess-bot](https://github.com/ShailChoksi/lichess-bot).
 
 ## License
 **LichessBOT-Việt** is licensed under the AGPLv3 (or any later version at your option). Check out the [LICENSE file](/LICENSE) for the full text.
