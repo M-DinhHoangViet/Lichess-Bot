@@ -180,8 +180,9 @@ class Game_Manager(Thread):
         else:
             self.current_matchmaking_game_id = None
             if has_reached_rate_limit:
-                print('Rate limit reached, next attempt in 30 minutes !')
                 self._delay_matchmaking(timedelta(hours=0.5))
+                next_matchmaking_str = self.next_matchmaking.isoformat(sep=' ', timespec='seconds')
+                print(f'Matchmaking has reached rate limit, next attempt at {next_matchmaking_str}.')
                 self.is_rate_limited = True
             if is_misconfigured:
                 print('Matchmaking stopped due to misconfiguration.')
