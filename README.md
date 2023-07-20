@@ -1,17 +1,16 @@
 # Overview
 
-**LichessBOT-Việt** is a bot for Lichess. It connects any [UCI](https://backscattering.de/chess/uci/) engine with the [Lichess Bot API](https://lichess.org/api#tag/Bot).
+**Lichess-Bot** is a bot for Lichess. It connects any [UCI](https://backscattering.de/chess/uci/) engine with the [Lichess Bot API](https://lichess.org/api#tag/Bot).
 
 It has a customizable support of Polyglot opening books, a variety of supported online opening books and an online endgame tablebase. It can query local Syzygy and Gaviota endgame tablebases.
 
-In addition, LichessBOT-Việt can autonomously challenge other bots in any variants. It optionally supports two separate engines, one for standard chess and chess960 and one for Lichess chess variants.
+In addition, Lichess-Bot can autonomously challenge other bots in any variants. It optionally supports two separate engines, one for standard chess and chess960 and one for Lichess chess variants.
 
 # How to install
 
 - **NOTE: Only Python 3.10 or later is supported!**
-- Download the repo into LichessBOT-Việt directory: `https://github.com/M-DinhHoangViet/LichessBOT-Viet.git`
-- Navigate to the directory in cmd/Terminal: `cd LichessBot-Viet`
-- Copy `config.yml.default` to `config.yml`
+- Download the repo into Lichess-Bot directory: `https://github.com/M-DinhHoangViet/Lichess-Bot.git`
+- Navigate to the directory in cmd/Terminal: `cd Lichess-Bot`
 
 Install all requirements:
 ```bash
@@ -23,7 +22,7 @@ python -m pip install -r requirements.txt
 ## Lichess OAuth
 - Create an account for your bot on [Lichess.org](https://lichess.org/signup).
 - **NOTE: If you have previously played games on an existing account, you will not be able to use it as a bot account.**
-- Once your account has been created and you are logged in, [create a personal OAuth2 token with the "Play games with the bot API" ('bot:play') scope](https://lichess.org/account/oauth/token/create?scopes[]=bot:play&description=LichessBOT-Việt) selected and a description added.
+- Once your account has been created and you are logged in, [create a personal OAuth2 token with the "Play games with the bot API" ('bot:play') scope](https://lichess.org/account/oauth/token/create?scopes[]=bot:play&description=Lichess-Bot) selected and a description added.
 - A `token` will be displayed. Store this in the `config.yml` file as the `token` field.
 - **NOTE: You won't see this token again on Lichess, so do save it.**
 
@@ -103,7 +102,7 @@ The bot will always wait until the current game is finished.
 
 ## Non interactive mode
 
-This mode is used automatically when LichessBOT-Việt is used without an interactive terminal, for example as a service. In this case, the bot is controlled by setting flags at start time.
+This mode is used automatically when Lichess-Bot is used without an interactive terminal, for example as a service. In this case, the bot is controlled by setting flags at start time.
 
 ### Matchmaking
 
@@ -134,7 +133,7 @@ The project comes with a Dockerfile, this uses Ubuntu 22.04, installs all depend
 
 If Docker is used, all configurations must be done in `config.yml.default`. This is automatically renamed to `config.yml` in the build process.
 
-The Dockerfile also contains all commands to download Fairy-Stockfish and all NNUEs needed for the Lichess chess variants. These commands must be uncommented if desired. In addition, the variants engine must be enabled in the `config.yml.default`. To use NNUE for the Lichess chess variants the following UCI option for Fairy-Stockfish must be set in the config: `EvalFile: "3check-313cc226a173.nnue:antichess-689c016df8e0.nnue:atomic-2cf13ff256cc.nnue:crazyhouse-8ebf84784ad2.nnue:horde-28173ddccabe.nnue:kingofthehill-978b86d0e6a4.nnue:racingkings-636b95f085e3.nnue"`
+The Dockerfile also contains all commands to download Fairy-Stockfish and all NNUEs needed for the Lichess chess variants. These commands must be uncommented if desired. In addition, the variants engine must be enabled in the `config.yml`. To use NNUE for the Lichess chess variants the following UCI option for Fairy-Stockfish must be set in the config: `EvalFile: "3check-313cc226a173.nnue:antichess-689c016df8e0.nnue:atomic-2cf13ff256cc.nnue:crazyhouse-8ebf84784ad2.nnue:horde-28173ddccabe.nnue:kingofthehill-978b86d0e6a4.nnue:racingkings-636b95f085e3.nnue"`
 
 If the service should run with matchmaking the `--matchmaking` flag must be appended at the end of the `ExecStart` line.
 
