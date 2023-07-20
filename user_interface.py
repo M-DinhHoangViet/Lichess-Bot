@@ -19,6 +19,7 @@ except ImportError:
     readline_available = False
 
 COMMANDS = {
+    'whitelist': 'Temporarily whitelists a user. Use config for permanent whitelisting. Usage: whitelist USERNAME',
     'blacklist': 'Temporarily blacklists a user. Use config for permanent blacklisting. Usage: blacklist USERNAME',
     'challenge': 'Challenges a player. Usage: challenge USERNAME [INITIAL_TIME] [INCREMENT] [COLOR] [RATED] [VARIANT]',
     'create': 'Challenges a player to COUNT game pairs. Usage: create COUNT USERNAME [INITIAL_TIME] [INCREMENT] [RATED] [VARIANT]',
@@ -121,6 +122,14 @@ class UserInterface:
             print('Upgrade failed.')
             sys.exit(1)
 
+    def _whitelist(self, command: list[str]) -> None:
+        if len(command) != 2:
+            print(COMMANDS['whitelist'])
+            return
+    
+        username = command[1].lower()
+        self.event_handler.challenge_validator.whitelist.append(username)
+        print(f'Added {command[1]} to the whitelist.')
     def _blacklist(self, command: list[str]) -> None:
         if len(command) != 2:
             print(COMMANDS['blacklist'])
