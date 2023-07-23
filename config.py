@@ -169,6 +169,6 @@ def load_config(config_path: str) -> dict:
         commit_SHA = output.decode('utf-8').strip()[:7]
         CONFIG['version'] = f'{commit_date}-{commit_SHA}'
     except (FileNotFoundError, subprocess.CalledProcessError):
-        CONFIG['version'] = 'No git'
+        CONFIG['version'] = 'v.1.5.0'
 
     return CONFIG
