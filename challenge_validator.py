@@ -18,7 +18,7 @@ class Challenge_Validator:
     def get_decline_reason(self, challenge_event: dict) -> Decline_Reason | None:
         speed = challenge_event['challenge']['speed']
         if speed == 'correspondence':
-            print('Time control "Correspondence" is not supported by BotLi.')
+            print('Time control "Correspondence" is not supported by Lichess-Bot.')
             return Decline_Reason.TIME_CONTROL
 
         variant = challenge_event['challenge']['variant']['key']
