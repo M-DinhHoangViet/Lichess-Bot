@@ -93,9 +93,9 @@ class UserInterface:
 
     def _handle_bot_status(self) -> None:
         if 'bot:play' not in self.api.get_token_scopes(self.config['token']):
-            print('Your token is missing the bot:play scope. This is mandatory to use LichesBOT-Việt.\n'
+            print('Your token is missing the bot:play scope. This is mandatory to use Liches-Bot\n'
                   'You can create such a token by following this link:\n'
-                  'https://lichess.org/account/oauth/token/create?scopes%5B%5D=bot:play&description=Botvn')
+                  'https://lichess.org/account/oauth/token/create?scopes%5B%5D=bot:play&description=Lichess-Bot')
             sys.exit(1)
 
         if self.api.user_title == 'BOT':
@@ -207,7 +207,7 @@ class UserInterface:
             return
 
         if last_challenge_event['challenge']['speed'] == 'correspondence':
-            print('Correspondence is not supported by LichessBOT-Việt')
+            print('Correspondence is not supported by Lichess-Bot')
             return
 
         opponent_username: str = last_challenge_event['challenge']['challenger']['name']
