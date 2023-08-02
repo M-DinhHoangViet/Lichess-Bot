@@ -719,6 +719,11 @@ class Lichess_Game:
             else:
                 print(f'Because the "{name}" UCI option is not supported by the tool, it is ignored...')
 
+        engine.send_opponent_information(opponent=chess.engine.Opponent(self.game_info.opponent_username,
+                                                                        self.game_info.opponent_title,
+                                                                        self.game_info.opponent_rating,
+                                                                        self.game_info.opponent_is_bot))
+                                                                        
         return engine
 
     def _setup_board(self) -> chess.Board:
