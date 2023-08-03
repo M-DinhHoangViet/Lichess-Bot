@@ -405,7 +405,7 @@ class Lichess_Game:
                     return
 
             if wdl == 0:
-                if board_copy.halfmove_clock == 0:
+                if self.board.is_capture(move):
                     dtm = -1
 
                 if board_copy.is_check():
@@ -470,7 +470,7 @@ class Lichess_Game:
                     dtz -= 10_000
 
             if wdl == 0:
-                if board_copy.halfmove_clock == 0:
+                if self.board.is_capture(move):
                     dtz = -1
 
                 if board_copy.is_check():
