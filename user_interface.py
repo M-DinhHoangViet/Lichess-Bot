@@ -22,11 +22,12 @@ COMMANDS = {
     'whitelist': 'Temporarily whitelists a user. Use config for permanent whitelisting. Usage: whitelist USERNAME',
     'blacklist': 'Temporarily blacklists a user. Use config for permanent blacklisting. Usage: blacklist USERNAME',
     'challenge': 'Challenges a player. Usage: challenge USERNAME [INITIAL_TIME] [INCREMENT] [COLOR] [RATED] [VARIANT]',
+    'rechallenge': 'Challenges the opponent to the last received challenge.',
     'create': 'Challenges a player to COUNT game pairs. Usage: create COUNT USERNAME [INITIAL_TIME] [INCREMENT] [RATED] [VARIANT]',
     'help': 'Prints this message.',
     'matchmaking': 'Starts matchmaking mode.',
     'quit': 'Exits the bot.',
-    'rechallenge': 'Challenges the opponent to the last received challenge.',
+    'clear': 'Clears the challenge queue.',
     'reset': 'Resets matchmaking. Usage: reset [PERF_TYPE]',
     'stop': 'Stops matchmaking mode.'
 }
@@ -76,6 +77,8 @@ class UserInterface:
                 self._challenge(command)
             elif command[0] == 'create':
                 self._create(command)
+            elif command[0] == 'clear':
+                self._clear()
             elif command[0] == 'exit':
                 self._quit()
             elif command[0] == 'matchmaking':
@@ -101,10 +104,10 @@ class UserInterface:
         if self.api.user_title == 'BOT':
             return
 
-        print('\nLichesBOT-Việt can only be used by BOT accounts!\n')
+        print('\n Liches-Bot can only be used by BOT accounts!\n')
 
         if not sys.stdin.isatty() and not self.allow_upgrade:
-            print('Start LichessBOT-Việt with the "--upgrade" flag if you are sure you want to upgrade this account.\n'
+            print('Start Lichess-Bot with the "--upgrade" flag if you are sure you want to upgrade this account.\n'
                   'WARNING: This is irreversible! The account will only be able to play as a BOT!')
             sys.exit(1)
         elif sys.stdin.isatty():
@@ -117,7 +120,7 @@ class UserInterface:
                 sys.exit()
 
         if self.api.upgrade_account():
-            print('Upgrade successful!')
+            print('Upgrade successful! :')
         else:
             print('Upgrade failed.')
             sys.exit(1)
@@ -158,6 +161,34 @@ class UserInterface:
         except ValueError as e:
             print(e)
             return
+
+        challenge_request = Challenge_Request(opponent_username, initial_time, increment, rated, color, variant, 30)
+        self.game_manager.request_challenge(challenge_request)
+        print(f'Challenge against {challenge_request.opponent_username} added to the queue.')
+        
+    def _rechallenge(self) -> None:
+        last_challenge_event = self.event_handler.last_challenge_event
+        if last_challenge_event is None:
+            print('No last challenge available.')
+            return
+
+        if last_challenge_event['challenge']['speed'] == 'correspondence':
+            print('Correspondence is not supported by Lichess-Bot')
+            return
+
+        opponent_username: str = last_challenge_event['challenge']['challenger']['name']
+        initial_time: int = last_challenge_event['challenge']['timeControl']['limit']
+        increment: int = last_challenge_event['challenge']['timeControl']['increment']
+        rated: bool = last_challenge_event['challenge']['rated']
+        event_color: str = last_challenge_event['challenge']['color']
+        variant = Variant(last_challenge_event['challenge']['variant']['key'])
+
+        if event_color == 'white':
+            color = Challenge_Color.BLACK
+        elif event_color == 'black':
+            color = Challenge_Color.WHITE
+        else:
+            color = Challenge_Color.RANDOM
 
         challenge_request = Challenge_Request(opponent_username, initial_time, increment, rated, color, variant, 30)
         self.game_manager.request_challenge(challenge_request)
@@ -204,33 +235,9 @@ class UserInterface:
         self.event_handler.stop()
         self.event_handler.join()
 
-    def _rechallenge(self) -> None:
-        last_challenge_event = self.event_handler.last_challenge_event
-        if last_challenge_event is None:
-            print('No last challenge available.')
-            return
-
-        if last_challenge_event['challenge']['speed'] == 'correspondence':
-            print('Correspondence is not supported by Lichess-Bot')
-            return
-
-        opponent_username: str = last_challenge_event['challenge']['challenger']['name']
-        initial_time: int = last_challenge_event['challenge']['timeControl']['limit']
-        increment: int = last_challenge_event['challenge']['timeControl']['increment']
-        rated: bool = last_challenge_event['challenge']['rated']
-        event_color: str = last_challenge_event['challenge']['color']
-        variant = Variant(last_challenge_event['challenge']['variant']['key'])
-
-        if event_color == 'white':
-            color = Challenge_Color.BLACK
-        elif event_color == 'black':
-            color = Challenge_Color.WHITE
-        else:
-            color = Challenge_Color.RANDOM
-
-        challenge_request = Challenge_Request(opponent_username, initial_time, increment, rated, color, variant, 30)
-        self.game_manager.request_challenge(challenge_request)
-        print(f'Challenge against {challenge_request.opponent_username} added to the queue.')
+    def _clear(self) -> None:
+        self.game_manager.challenge_requests.clear()
+        print('Challenge queue cleared.')
 
     def _reset(self, command: list[str]) -> None:
         if len(command) != 2:
