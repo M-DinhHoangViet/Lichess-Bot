@@ -2,7 +2,7 @@ token: "lip_xxxxxxxxxxxxxxxxxxxx"         # Lichess OAuth2 Token.
 
 engine:                                   # Engine settings.
   dir: "."                        # Directory containing the engine.
-  name: "engine_name"                       # Binary name of the engine to use.
+  name: "engine_name"                       # Binary name of the engine to use. Example: Available as "Stockfish 16"
   ponder: true                            # Think on opponent's time.
   silence_stderr: false                   # Suppresses stderr output.
   syzygy:
@@ -17,19 +17,19 @@ engine:                                   # Engine settings.
       - "/path/to/gaviota"
     max_pieces: 5                         # Count of max pieces in the local gaviota endgame tablebases.
   uci_options:                            # Arbitrary UCI options passed to the engine. (Commenting allowed)
-    Move Overhead: 100                    # Increase if your bot flags games too often.
+    Move Overhead: 200                    # Increase if your bot flags games too often.
     Threads: 3                            # Max CPU threads the engine can use.
     Hash: 256                             # Max memory (in megabytes) the engine can allocate.
   variants:
     enabled: true                        # Activate seperate engine for other chess variants than standard and chess960.
     dir: "."                      # Directory containing the engine.
-    name: "engine_name"               # Binary name of the engine to use.
+    name: "engine_name"               # Binary name of the engine to use. Example: Available as "Fairy-Stockfish 14"
     ponder: true                          # Think on opponent's time.
     silence_stderr: false                 # Suppresses stderr output.
     uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
-      Move Overhead: 100                  # Increase if your bot flags games too often.
+      Move Overhead: 150                  # Increase if your bot flags games too often.
       Threads: 3                          # Max CPU threads the engine can use.
-      Hash: 256                           # Max memory (in megabytes) the engine can allocate.
+      Hash: 512                           # Max memory (in megabytes) the engine can allocate.
   opening_books:
     enabled: false                        # Activate opening books.
     books:
@@ -148,9 +148,9 @@ messages:
   #   {ram} to insert RAM size
   # Any other words in curly braces will be removed.
   greeting: "Hey, I'm {me}, I'm running {engine} on {cpu} and {ram} of RAM. Good luck {oppnent}!" # Message sent to the opponent at the beginning of a game.
-  goodbye: "Good game, see you next time."                                             # Message sent to the opponent after the end of a game.
+  goodbye: "Good game {opponent}, see you next time."                                             # Message sent to the opponent after the end of a game.
   greeting_spectators: "Hey, I'm running {engine} on {cpu} and {ram} of RAM. Type !help for a list of commands." # Message sent to the spectators at the beginning of a game.
-  goodbye_spectators: "Thanks for watching."                                           # Message sent to the spectators after the end of a game.
+  goodbye_spectators: "Thanks for watching!"                                           # Message sent to the spectators after the end of a game.
 
 # whitelist:                              # List of users whose challenges are always accepted.
 #   - Username1

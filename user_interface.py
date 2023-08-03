@@ -50,7 +50,7 @@ class UserInterface:
 
         self._handle_bot_status()
 
-        print('Handling challenges ...')
+        print('⚒️ Handling challenges⚔️..')
         self.event_handler.start()
         self.game_manager.start()
 
@@ -67,9 +67,9 @@ class UserInterface:
 
         while self.is_running:
             command = input().split()
-
             if len(command) == 0:
                 continue
+                
             elif command[0] == 'blacklist':
                 self._blacklist(command)
             elif command[0] == 'challenge':
