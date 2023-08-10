@@ -20,6 +20,7 @@ RUN wget "https://drive.google.com/u/0/uc?id=1nieguR4yCb0BlME-AUhcrFYkmyIOGvqs&e
 RUN wget "https://drive.google.com/u/0/uc?id=16BQztGqFIS1n_dYtmdfFVE2EexF-KagX&export=download" -O engines/horde-28173ddccabe.nnue
 RUN wget "https://drive.google.com/u/0/uc?id=1x25r_1PgB5XqttkfR494M4rseiIm0BAV&export=download" -O engines/kingofthehill-978b86d0e6a4.nnue
 RUN wget "https://drive.google.com/u/0/uc?id=1Tiq8FqSu7eiekE2iaWQzSdJPg-mhvLzJ&export=download" -O engines/racingkings-636b95f085e3.nnue
+RUN wget "https://tests.stockfishchess.org/api/nn/nn-4ffa203f3b58.nnue" -O engines/nn-4ffa203f3b58.nnue
 
 # Add the "--matchmaking" flag to start the matchmaking mode.
 CMD python3 user_interface.py
