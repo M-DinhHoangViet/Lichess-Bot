@@ -30,6 +30,8 @@ engine:                                   # Engine settings.
       Move Overhead: 150                  # Increase if your bot flags games too often.
       Threads: 3                          # Max CPU threads the engine can use.
       Hash: 512                           # Max memory (in megabytes) the engine can allocate.
+      Use NNUE: true           # allow bot to use neural networks
+      EvalFile: 3check-313cc226a173.nnue:antichess-689c016df8e0.nnue:atomic-2cf13ff256cc.nnue:crazyhouse-8ebf84784ad2.nnue:horde-28173ddccabe.nnue:kingofthehill-978b86d0e6a4.nnue:racingkings-636b95f085e3.nnue     # shogi neural networks file
   opening_books:
     enabled: false                        # Activate opening books.
     priority: 400 # Priority with which this move source is used. Higher priority is used first.
