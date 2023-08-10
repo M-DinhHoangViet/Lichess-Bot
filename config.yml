@@ -1,7 +1,7 @@
 token: "lip_xxxxxxxxxxxxxxxxxxxx"         # Lichess OAuth2 Token.
 
 engine:                                   # Engine settings.
-  dir: "."                        # Directory containing the engine.
+  dir: "./engines/"                        # Directory containing the engine.
   name: "stockfish"                       # Binary name of the engine to use. Example: Available as "Stockfish 16"
   ponder: true                            # Think on opponent's time.
   silence_stderr: false                   # Suppresses stderr output.
@@ -22,7 +22,7 @@ engine:                                   # Engine settings.
     Hash: 256                             # Max memory (in megabytes) the engine can allocate.
   variants:
     enabled: true                        # Activate seperate engine for other chess variants than standard and chess960.
-    dir: "."                      # Directory containing the engine.
+    dir: "./engines/"                      # Directory containing the engine.
     name: "fairy-stockfish"               # Binary name of the engine to use. Example: Available as "Fairy-Stockfish 14"
     ponder: true                          # Think on opponent's time.
     silence_stderr: false                 # Suppresses stderr output.
@@ -116,15 +116,15 @@ challenge:                                # Incoming challenges. (Commenting all
     - classical
   bot_modes:                              # Game modes to accept against BOTs.
 #   - casual                              # Unrated games.
-    - rated                               # Rated games
+#   - rated                               # Rated games
   human_modes:                            # Game modes to accept against humans.
 #   - casual                              # Unrated games.
-    - rated                               # Rated games
+#   - rated                               # Rated games
 
 matchmaking:
   initial_time: 60                        # Initial time for matchmaking mode.
   increment: 1                            # Increment time for matchmaking mode.
-  rated: true                             # Activate rated games in matchmaking mode.
+  rated: false                             # Activate rated games in matchmaking mode.
   timeout: 30                             # Time until a challenge is canceled.
   variants:                               # Chess variants (https://lichess.org/variant) to challenge.
     - standard
