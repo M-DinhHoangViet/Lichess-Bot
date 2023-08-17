@@ -49,7 +49,7 @@ def load_config(config_path: str) -> dict:
             raise RuntimeError(f'Your {config_path} does not have required `engine` subsection `{subsection[0]}`.')
 
         if not isinstance(CONFIG['engine'][subsection[0]], subsection[1]):
-            raise TypeError(f'`engine` subsection {subsection[2]}')
+            raise TypeError(f' `engine`subsection {subsection[2]}')
 
     syzygy_sections = [
         ['enabled', bool, '"enabled" must be a bool.'],
