@@ -70,7 +70,7 @@ class UserInterface:
             command = input().split()
             if len(command) == 0:
                 continue
-                
+
             if command[0] == 'blacklist':
                 self._blacklist(command)
             elif command[0] == 'challenge':
@@ -129,7 +129,7 @@ class UserInterface:
         if len(command) != 2:
             print(COMMANDS['whitelist'])
             return
-    
+
         username = command[1].lower()
         self.event_handler.challenge_validator.whitelist.append(username)
         print(f'Added {command[1]} to the whitelist.')
@@ -165,7 +165,7 @@ class UserInterface:
         challenge_request = Challenge_Request(opponent_username, initial_time, increment, rated, color, variant, 30)
         self.game_manager.request_challenge(challenge_request)
         print(f'Challenge against {challenge_request.opponent_username} added to the queue.')
-        
+
     def _rechallenge(self) -> None:
         last_challenge_event = self.event_handler.last_challenge_event
         if last_challenge_event is None:

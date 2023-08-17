@@ -43,7 +43,7 @@ class Chatter:
             if chat_message.room == 'player':
                 print(f'{chat_message.username}: {chat_message.text}')
             return
-        elif chat_message.username != self.api.username:
+        if chat_message.username != self.api.username:
             print(f'{chat_message.username} ({chat_message.room}): {chat_message.text}')
 
         if chat_message.text.startswith('!'):
@@ -79,31 +79,31 @@ class Chatter:
         command = chat_message.text[1:].lower()
         if command == 'cpu':
             return self.cpu_message
-            
+
         if command == 'draw':
             return self.draw_message
-            
+
         if command == 'eval':
             return self.last_message
-            
+
         if command == 'motor':
             return self.lichess_game.engine.id['name']
-            
+
         if command == 'info':
             return f'@{self.api.username} running {self.lichess_game.engine.id["name"]} (Lichess-Bot {self.version})'
-            
+
         if command == 'printeval':
             if not self.game_info.increment_ms and self.game_info.initial_time_ms < 180_000:
                 return 'I do not run this function because the time control is too fast.'
             self.print_eval_rooms.add(chat_message.room)
             return self.last_message
-            
+
         if command == 'stopeval':
             self.print_eval_rooms.discard(chat_message.room)
-            
+
         if command == 'ram':
             return self.ram_message
-            
+
         if command in ['help', 'commands']:
             return 'Supported commands: !info , !draw, !eval, !printeval/!stopeval, !cpu, !ram, !motor'
 
@@ -156,9 +156,10 @@ class Chatter:
     def _format_message(self, message: str | None) -> str | None:
         if not message:
             return
-            
+
         opponent_username = self.game_info.black_name if self.game_info.is_white else self.game_info.white_name
-        mapping = defaultdict(str, {'opponent': opponent_username, 'me': self.api.username, 'white': self.game_info.white_str, 'black': self.game_info.black_str, 'rated': self.game_info.rated,
+        mapping = defaultdict(str, {'opponent': opponent_username, 'me': self.api.username,
+                                    'white': self.game_info.white_str, 'black': self.game_info.black_str, 'rated': self.game_info.rated,
                                     'engine': self.lichess_game.engine.id['name'], 'cpu': self.cpu_message,
                                     'ram': self.ram_message})
         return message.format_map(mapping)

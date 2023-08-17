@@ -125,7 +125,7 @@ class Game_Manager(Thread):
             self.reserved_game_spots -= 1
 
         if len(self.games) >= self.concurrency:
-            print(f'Abort the started game {game_id} because the maximum number of concurrent games has been exceeded.')
+            print(f'Max number of concurrent games exceeded. Aborting already started game {game_id}.')
             self.api.abort_game(game_id)
             return
 
@@ -148,9 +148,9 @@ class Game_Manager(Thread):
     def _accept_challenge(self, challenge_id: Challenge_ID) -> None:
         if self.api.accept_challenge(challenge_id):
             # Reserve a spot for this game
-            reserved_game_spots += 1
+            self.reserved_game_spots += 1
         else:
-            print(f'Challenge "{challenge_id}" could not be accepted !')
+            print(f'Challenge "{challenge_id}" could not be accepted!')
 
     def _check_matchmaking(self) -> None:
         if self.next_matchmaking > datetime.now():
@@ -173,12 +173,12 @@ class Game_Manager(Thread):
         self.is_rate_limited = False
 
         if success:
-            # Reserve a spot for this game.
+            # Reserve a spot for this game
             self.reserved_game_spots += 1
         else:
             self.current_matchmaking_game_id = None
             if has_reached_rate_limit:
-                self._delay_matchmaking(timedelta(hours=0.5))
+                self._delay_matchmaking(timedelta(hours=1.0))
                 next_matchmaking_str = self.next_matchmaking.isoformat(sep=' ', timespec='seconds')
                 print(f'Matchmaking has reached rate limit, next attempt at {next_matchmaking_str}.')
                 self.is_rate_limited = True
@@ -200,8 +200,8 @@ class Game_Manager(Thread):
         *_, last_response = self.challenger.create(challenge_request)
 
         if last_response.success:
-            # Reserve a spot for this game.
-            reserved_game_spots += 1
+            # Reserve a spot for this game
+            self.reserved_game_spots += 1
         elif last_response.has_reached_rate_limit and self.challenge_requests:
             print('Challenge queue cleared due to rate limiting.')
             self.challenge_requests.clear()

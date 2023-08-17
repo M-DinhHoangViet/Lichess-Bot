@@ -28,7 +28,7 @@ class Challenge_Validator:
 
         if challenge_event['challenge']['challenger']['id'] in self.whitelist:
             return
-            
+
         if challenge_event['challenge']['challenger']['id'] in self.blacklist:
             print('Challenger is blacklisted.')
             return Decline_Reason.GENERIC
@@ -36,7 +36,7 @@ class Challenge_Validator:
         if not (self.bot_modes or self.human_modes):
             print('Neither bots nor humans are allowed according to config.')
             return Decline_Reason.GENERIC
-            
+
         is_bot = challenge_event['challenge']['challenger']['title'] == 'BOT'
         modes = self.bot_modes if is_bot else self.human_modes
         if modes is None:

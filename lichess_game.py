@@ -593,9 +593,9 @@ class Lichess_Game:
         if self.board.turn:
             move_number = str(self.board.fullmove_number) + '.'
             return f'{move_number:4} {self.board.san(move)}'
-        else:
-            move_number = str(self.board.fullmove_number) + '...'
-            return f'{move_number:6} {self.board.san(move)}'
+
+        move_number = str(self.board.fullmove_number) + '...'
+        return f'{move_number:6} {self.board.san(move)}'
 
     def _format_engine_info(self, info: chess.engine.InfoDict) -> str:
         info_score = info.get('score')

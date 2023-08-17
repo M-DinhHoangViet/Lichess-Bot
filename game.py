@@ -30,10 +30,10 @@ class Game(Thread):
 
         self.game_info = Game_Information.from_gameFull_event(game_queue.get(), self.api.username)
         self._print_game_information()
-        
+
         self.lichess_game = Lichess_Game(self.api, self.game_info, self.config)
         self.chatter = Chatter(self.api, self.config, self.game_info, self.lichess_game)
-        
+
         self.chatter.send_greetings()
 
         if self._finish_game(self.game_info.state.get('winner')):
@@ -47,10 +47,10 @@ class Game(Thread):
 
         abortion_seconds = 30.0 if self.game_info.opponent_is_bot else 60.0
         abortion_time = datetime.now() + timedelta(seconds=abortion_seconds)
-        
+
         while True:
             event = game_queue.get()
-            
+
             if event['type'] not in ['gameFull', 'gameState']:
                 if self.lichess_game.is_abortable and datetime.now() >= abortion_time:
                     print('Aborting game ...')
@@ -134,31 +134,31 @@ class Game(Thread):
 
         if winner:
             if winner == 'white':
-                white_result = 'Win'
-                black_result = 'Lose'
+                white_result = '1'
+                black_result = '0'
             else:
-                white_result = 'Lose'
-                black_result = 'Win'
+                white_result = '0'
+                black_result = '1'
 
             message = f'{winning_title}{" " if winning_title else ""}{winning_name} won'
 
             if self.lichess_game.status == Game_Status.MATE:
                 message += ' by checkmate!'
             elif self.lichess_game.status == Game_Status.OUT_OF_TIME:
-                message += f'! {losing_title}{" " if losing_title else ""}{losing_name} by time.'
+                message += f'! {losing_title}{" " if losing_title else ""}{losing_name} ran out of time.'
             elif self.lichess_game.status == Game_Status.RESIGN:
-                message += f'! {losing_title}{" " if losing_title else ""}{losing_name} resignation.'
+                message += f'! {losing_title}{" " if losing_title else ""}{losing_name} resigned.'
             elif self.lichess_game.status == Game_Status.VARIANT_END:
                 message += ' by variant rules!'
         else:
-            white_result = 'Draw'
-            black_result = 'Draw'
+            white_result = '½'
+            black_result = '½'
 
             if self.lichess_game.status == Game_Status.DRAW:
                 if self.lichess_game.board.is_fifty_moves():
-                    message = 'Game drawn by 50 move rule.'
+                    message = 'Game drawn by 50-move rule.'
                 elif self.lichess_game.board.is_repetition():
-                    message = 'Game drawn by 3 repetition.'
+                    message = 'Game drawn by threefold repetition.'
                 elif self.lichess_game.board.is_insufficient_material():
                     message = 'Game drawn due to insufficient material.'
                 elif self.lichess_game.board.is_variant_draw():
@@ -170,8 +170,8 @@ class Game(Thread):
             else:
                 message = 'Game aborted.'
 
-                white_result = '0'
-                black_result = '0'
+                white_result = 'X'
+                black_result = 'X'
 
         opponents_str = f'{self.game_info.white_str} {white_result} - {black_result} {self.game_info.black_str}'
         delimiter = 5 * ' '

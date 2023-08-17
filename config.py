@@ -29,7 +29,7 @@ def load_config(config_path: str) -> dict:
         if section[0] not in CONFIG:
             raise RuntimeError(f'Your {config_path} does not have required section `{section[0]}`.')
 
-        if is_casual and 'casual' not in modes:
+        if not isinstance(CONFIG[section[0]], section[1]):
             raise TypeError(section[2])
 
     engine_sections = [
@@ -47,7 +47,7 @@ def load_config(config_path: str) -> dict:
     for subsection in engine_sections:
         if subsection[0] not in CONFIG['engine']:
             raise RuntimeError(f'Your {config_path} does not have required `engine` subsection `{subsection[0]}`.')
-            
+
         if not isinstance(CONFIG['engine'][subsection[0]], subsection[1]):
             raise TypeError(f'`engine` subsection {subsection[2]}')
 
@@ -60,7 +60,7 @@ def load_config(config_path: str) -> dict:
         if subsection[0] not in CONFIG['engine']['syzygy']:
             raise RuntimeError(f'Your {config_path} does not have required '
                                f'`engine` `syzygy` subsection `{subsection[0]}`.')
-                               
+
         if not isinstance(CONFIG['engine']['syzygy'][subsection[0]], subsection[1]):
             raise TypeError(f'`engine` `syzygy` subsection {subsection[2]}')
 
@@ -99,7 +99,7 @@ def load_config(config_path: str) -> dict:
         if subsection[0] not in CONFIG['engine']['online_moves']:
             raise RuntimeError(f'Your {config_path} does not have required '
                                f'`engine` `online_moves` subsection `{subsection[0]}`.')
-                               
+
         if not isinstance(CONFIG['engine']['online_moves'][subsection[0]], subsection[1]):
             raise TypeError(f'`engine` `online_moves` subsection {subsection[2]}')
 
@@ -108,7 +108,7 @@ def load_config(config_path: str) -> dict:
             raise TypeError('If uncommented, "whitelist" must be a list of usernames.')
 
         CONFIG['whitelist'] = [username.lower() for username in CONFIG['whitelist']]
-        
+
     if 'blacklist' in CONFIG:
         if not isinstance(CONFIG['blacklist'], list):
             raise TypeError('If uncommented, "blacklist" must be a list of usernames.')
@@ -175,6 +175,6 @@ def load_config(config_path: str) -> dict:
         commit_SHA = output.decode('utf-8').strip()[:7]
         CONFIG['version'] = f'{commit_date}-{commit_SHA}'
     except (FileNotFoundError, subprocess.CalledProcessError):
-        CONFIG['version'] = 'v.2.1.2'
+        CONFIG['version'] = 'v.3.0.3'
 
     return CONFIG
