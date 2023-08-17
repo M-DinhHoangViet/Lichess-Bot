@@ -26,10 +26,10 @@ engine:                                   # Engine settings.
     name: "engine_name"               # Binary name of the engine to use. Example: Available as "Fairy-Stockfish 14"
     ponder: true                          # Think on opponent's time.
     silence_stderr: false                 # Suppresses stderr output.
-    uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
-      Move Overhead: 150                  # Increase if your bot flags games too often.
-      Threads: 3                          # Max CPU threads the engine can use.
-      Hash: 512                           # Max memory (in megabytes) the engine can allocate.
+  uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
+    Move Overhead: 150                  # Increase if your bot flags games too often.
+    Threads: 3                          # Max CPU threads the engine can use.
+    Hash: 512                           # Max memory (in megabytes) the engine can allocate.
   opening_books:
     enabled: false                        # Activate opening books.
     priority: 400 # Priority with which this move source is used. Higher priority is used first.
@@ -145,8 +145,6 @@ messages:
   # Optional substitution keywords (include curly braces):
   #   {opponent} to insert the opponent's name
   #   {me} to insert our name
-  #   {white} to insert information about white piece player
-  #   {black} to insert information about black piece player
   #   {engine} to insert engine name
   #   {cpu} to insert CPU information
   #   {ram} to insert RAM size
