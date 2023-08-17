@@ -160,3 +160,4 @@ class Game_Information:
     @property
     def opponent_rating(self) -> int | None:
         return self.black_rating if self.is_white else self.white_rating
+        
