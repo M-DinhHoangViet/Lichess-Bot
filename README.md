@@ -1,3 +1,4 @@
+[![Codacy Security Scan](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/codacy.yml/badge.svg)](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/codacy.yml)
 # Features
 Supports:
 - Every variant and time control except for the correspondence
