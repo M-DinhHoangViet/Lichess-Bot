@@ -3,7 +3,7 @@ name: Pylint
 on: [push, pull_request]
 
 jobs:
-  windows:
+ windows:
    build:
     runs-on: windows-latest
     strategy:
@@ -23,7 +23,7 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
-  linux:
+ linux:
    build:
     runs-on: ubuntu-latest
     strategy:
@@ -43,7 +43,7 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')
-  macOS:
+ macOS:
    build:
     runs-on: macos-latest
     strategy:
