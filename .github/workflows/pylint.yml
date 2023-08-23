@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
    build:
-    name: ${{ matrix.os }}
+    name: ${{ matrix.os }} with python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
