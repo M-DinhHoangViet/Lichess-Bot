@@ -1,4 +1,4 @@
-    from collections.abc import Iterator
+from collections.abc import Iterator
 from queue import Empty, Queue
 from threading import Thread
 
