@@ -1,8 +1,6 @@
 name: Pylint
 
 on: [push, pull_request]
-  paths:
-      - '.'
 
 jobs:
    build:
