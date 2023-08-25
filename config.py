@@ -54,7 +54,7 @@ def load_config(config_path: str) -> dict:
     syzygy_sections = [
         ['enabled', bool, '"enabled" must be a bool.'],
         ['paths', list, '"paths" must be a list.'],
-        ['max_pieces', int, '"max_pieces" must be a integer.'],
+        ['max_pieces', int, '"max_pieces" must be an integer.'],
         ['instant_play', bool, '"instant_play" must be a bool.']]
     for subsection in syzygy_sections:
         if subsection[0] not in CONFIG['engine']['syzygy']:
@@ -67,7 +67,7 @@ def load_config(config_path: str) -> dict:
     gaviota_sections = [
         ['enabled', bool, '"enabled" must be a bool.'],
         ['paths', list, '"paths" must be a list.'],
-        ['max_pieces', int, '"max_pieces" must be a integer.']]
+        ['max_pieces', int, '"max_pieces" must be an integer.']]
     for subsection in gaviota_sections:
         if subsection[0] not in CONFIG['engine']['gaviota']:
             raise RuntimeError(f'Your {config_path} does not have required '
