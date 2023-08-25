@@ -1,7 +1,7 @@
 """Automatically updates the Lichess-Bot version."""
 import os
-import yaml
 import datetime
+import yaml
 
 with open("versioning.yml") as version_file:
     versioning_info = yaml.safe_load(version_file)
@@ -22,5 +22,5 @@ versioning_info["Lichess_Bot_version"] = new_version
 with open("versioning.yml", "w") as version_file:
     yaml.dump(versioning_info, version_file, sort_keys=False)
 
-with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+with open(os.environ[GITHUB_OUTPUT], 'a') as fh:
     print(f'new_version={new_version}', file=fh)
