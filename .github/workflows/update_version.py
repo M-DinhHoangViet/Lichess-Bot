@@ -22,5 +22,5 @@ versioning_info["Lichess_Bot_version"] = new_version
 with open("versioning.yml", "w") as version_file:
     yaml.dump(versioning_info, version_file, sort_keys=False)
 
-with open(os.environ[GITHUB_OUTPUT], 'a') as fh:
+with open(os.environ['GITHUB_OUTPUT']) as fh:
     print(f'new_version={new_version}', file=fh)
