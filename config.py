@@ -2,9 +2,21 @@ import os
 import os.path
 import subprocess
 import sys
+import logging
+import logging.handlers
 
 import yaml
 
+
+logger = logging.getLogger(__name__)
+
+with open("versioning.yml") as version_file:
+    versioning_info = yaml.safe_load(version_file)
+
+__version__ = versioning_info["Lichess_Bot_version"]
+
+terminated = False
+restart = True
 
 def load_config(config_path: str) -> dict:
     with open(config_path, encoding='utf-8') as yml_input:
@@ -201,6 +213,6 @@ def load_config(config_path: str) -> dict:
         commit_SHA = output.decode('utf-8').strip()[:7]
         CONFIG['version'] = f'{commit_date}-{commit_SHA}'
     except (FileNotFoundError, subprocess.CalledProcessError):
-        CONFIG['version'] = 'v.2.1.0'
+        CONFIG['version'] = {__version__}
 
     return CONFIG
