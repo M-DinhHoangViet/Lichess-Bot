@@ -1,6 +1,18 @@
 name: Pylint
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - 'challenge_validator.py'
+      - 'api.py'
+  pull_request:
+    paths:
+      - '.github/workflows/assets.yml'
+      - 'public/**'
+      - 'ui/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'bin/download-lifat'
 
 jobs:
    build:
