@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+env:
+  TOKEN: ${{ secrets.TOKEN }}
+
 jobs:
   versioning:
     if: github.repository == 'M-DinhHoangViet/Lichess-Bot'
