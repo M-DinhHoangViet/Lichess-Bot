@@ -10,7 +10,7 @@ import yaml
 
 logger = logging.getLogger(__name__)
 
-with open('versioning.yml') as version_file:
+with open('versioning.yml', encoding='utf-8') as version_file:
     versioning_info = yaml.safe_load(version_file)
 
 __version__ = versioning_info['Lichess_Bot_version']
