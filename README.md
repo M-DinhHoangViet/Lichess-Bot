@@ -1,3 +1,4 @@
+Test
 [![Codacy Security Scan](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/codacy.yml/badge.svg)](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/codacy.yml) [![Pylint](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/pylint.yml/badge.svg)](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/pylint.yml)
 # Features
 Supports:
