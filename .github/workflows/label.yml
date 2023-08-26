@@ -20,7 +20,7 @@ jobs:
               labels: ["triage"]
             })
 
-types:
+    types:
       - closed
 jobs:
   label_issues:
