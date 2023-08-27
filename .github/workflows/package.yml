@@ -1,14 +1,14 @@
 #
-Tên: Tạo và xuất bản hình ảnh Docker
+name: Create and publish a Docker image
 
-# Định cấu hình quy trình làm việc này để chạy mỗi khi có thay đổi được đẩy đến nhánh có tên `release`.
-TRÊN:
-  xô:
-    chi nhánh: ['phát hành']
+# Configures this workflow to run every time a change is pushed to the branch called `release`.
+on:
+  push:
+    branches: ['release']
 
-# Xác định hai biến môi trường tùy chỉnh cho quy trình làm việc. Chúng được sử dụng cho miền đăng ký vùng chứa và tên cho hình ảnh Docker mà quy trình làm việc này xây dựng.
+# Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
-  ĐĂNG KÝ: ghcr.io
+  REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 # There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
