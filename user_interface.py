@@ -172,10 +172,6 @@ class UserInterface:
             print('No last challenge available.')
             return
 
-        if last_challenge_event['challenge']['speed'] == 'correspondence':
-            print('Correspondence is not supported by Lichess-Bot')
-            return
-
         opponent_username: str = last_challenge_event['challenge']['challenger']['name']
         initial_time: int = last_challenge_event['challenge']['timeControl']['limit']
         increment: int = last_challenge_event['challenge']['timeControl']['increment']
