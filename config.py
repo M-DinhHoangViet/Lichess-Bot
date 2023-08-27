@@ -163,7 +163,7 @@ def _check_matchmaking_types_sections(matchmaking_types_section: dict) -> None:
             else:
                 raise RuntimeError(f'Unknown field "{key}" in matchmaking type "{matchmaking_type}".')
 
-    
+
 def _init_lists(config: dict) -> None:
     if 'whitelist' in config:
         if not isinstance(config['whitelist'], list):
