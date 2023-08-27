@@ -1,100 +1,115 @@
 token: "lip_xxxxxxxxxxxxxxxxxxxx"         # Lichess OAuth2 Token.
 
-engine:                                   # Engine settings.
-  dir: "."                        # Directory containing the engine.
-  name: "engine_name"                       # Binary name of the engine to use. Example: Available as "Stockfish 16"
-  ponder: true                            # Think on opponent's time.
-  silence_stderr: false                   # Suppresses stderr output.
-  syzygy:
-    enabled: false                        # Activate local syzygy endgame tablebases.
-    paths:                                # Paths to local syzygy endgame tablebases.
-      - "/path/to/syzygy"
-    max_pieces: 6                         # Count of max pieces in the local syzygy endgame tablebases.
-    instant_play: true                    # Whether the bot should play directly from syzygy without engine if possible.
-  gaviota:
-    enabled: false                        # Activate local gaviota endgame tablebases.
-    paths:                                # Paths to local gaviota endgame tablebases.
-      - "/path/to/gaviota"
-    max_pieces: 5                         # Count of max pieces in the local gaviota endgame tablebases.
-  uci_options:                            # Arbitrary UCI options passed to the engine. (Commenting allowed)
-    Move Overhead: 200                    # Increase if your bot flags games too often.
-    Threads: 3                            # Max CPU threads the engine can use.
-    Hash: 256                             # Max memory (in megabytes) the engine can allocate.
-  variants:
-    enabled: true                        # Activate seperate engine for other chess variants than standard and chess960.
-    dir: "."                      # Directory containing the engine.
-    name: "engine_name"               # Binary name of the engine to use. Example: Available as "Fairy-Stockfish 14"
+engines:
+  standard:                               # Engine used for standard chess and when no suitable special engine is configured.
+    dir: "."                              # Directory containing the engine.
+    name: "stockfish.exe"                 # Binary name of the engine to use.
     ponder: true                          # Think on opponent's time.
+    use_syzygy: true                      # Whether the engine should be configured to use syzygy.
     silence_stderr: false                 # Suppresses stderr output.
-  uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
-    Move Overhead: 150                  # Increase if your bot flags games too often.
-    Threads: 3                          # Max CPU threads the engine can use.
-    Hash: 512                           # Max memory (in megabytes) the engine can allocate.
-  opening_books:
-    enabled: false                        # Activate opening books.
-    priority: 400 # Priority with which this move source is used. Higher priority is used first.
-    books:
-#     bullet:                             # List of names of books to use in bullet.
-#       - "BulletBook"
-#     white:                              # List of names of books to use as white.
-#       - "WhiteBook"
-#     black:                              # List of names of books to use as black.
-#       - "BlackBook"
-      standard:                           # List of names of books to use if there is no specific book for the time control, white, black or chess960.
-        - "DefaultBook"
-#     chess960:                           # List of names of books to use for chess960.
-#       - "Chess960Book"
-#     Use the same pattern for 'blitz', 'rapid', 'classical', 'antichess', 'atomic', 'crazyhouse', 'horde', 'kingofthehill', 'racingkings' and '3check' as well.
-    selection: "weighted_random"          # Move selection is one of "weighted_random", "uniform_random" or "best_move".
+    uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
+      Threads: 4                          # Max CPU threads the engine can use.
+      Hash: 256                           # Max memory (in megabytes) the engine can allocate.
+      Move Overhead: 100                  # Increase if your bot flags games too often.
+  variants:                               # Engine used for variants when no suitable special engine is configured.
+    dir: "."                      # Directory containing the engine.
+    name: "fairy-stockfish.exe"               # Binary name of the engine to use.
+    ponder: true                          # Think on opponent's time.
+    use_syzygy: false                     # Whether the engine should be configured to use syzygy.
+    silence_stderr: false                 # Suppresses stderr output.
+    uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
+      Threads: 4                          # Max CPU threads the engine can use.
+      Hash: 256                           # Max memory (in megabytes) the engine can allocate.
+      Move Overhead: 100                  # Increase if your bot flags games too often.
+# Use the same pattern for 'bullet', 'blitz', 'rapid', 'classical',
+# 'antichess', 'atomic', 'chess960', 'crazyhouse', 'horde', 'kingofthehill', 'racingkings' and '3check' as well.
+# Append '_white' or '_black' to use the engine only as the specific color.
+
+syzygy:
+  enabled: false                          # Activate local syzygy endgame tablebases.
+  paths:                                  # Paths to local syzygy endgame tablebases.
+    - "/path/to/syzygy"
+  max_pieces: 6                           # Count of max pieces in the local syzygy endgame tablebases.
+  instant_play: true                      # Whether the bot should play directly from syzygy without engine if possible.
+
+gaviota:
+  enabled: false                          # Activate local gaviota endgame tablebases.
+  paths:                                  # Paths to local gaviota endgame tablebases.
+    - "/path/to/gaviota"
+  max_pieces: 5                           # Count of max pieces in the local gaviota endgame tablebases.
+
+opening_books:
+  enabled: false                          # Activate opening books.
+  priority: 400                           # Priority with which this move source is used. Higher priority is used first.
+  books:
+#   bullet:
+#     selection: weighted_random          # Move selection is one of "weighted_random", "uniform_random" or "best_move".
+#     names:                              # List of names of books to use in bullet.
+#       - BulletBook
+#       - DefaultBook
+#   standard_black:
+#     selection: best_move                # Move selection is one of "weighted_random", "uniform_random" or "best_move".
+#     names:                              # List of names of books to use as black.
+#       - BlackBook
+    standard:
+      selection: weighted_random          # Move selection is one of "weighted_random", "uniform_random" or "best_move".
+#     max_depth: 16                       # Half move max depth. (Comment this line for max depth)
+      names:                              # List of names of books to use if there is no specific book for the time control, white, black or chess960.
+        - DefaultBook
+#   Use the same pattern for 'bullet', 'blitz', 'rapid', 'classical',
+#   'antichess', 'atomic', 'chess960', 'crazyhouse', 'horde', 'kingofthehill', 'racingkings' and '3check' as well.
+#   Append '_white' or '_black' to use the books only as the specific color.
+
+online_moves:
+  opening_explorer:
+    enabled: false                        # Activate online moves from Lichess opening explorer. The move that has performed best for this bot is played.
+    priority: 300                         # Priority with which this move source is used. Higher priority is used first.
+    use_for_variants: false               # Whether the Lichess opening explorer should be used for other variants than standard and chess960.
+    min_time: 20                          # Time the bot must have at least to use the online move.
+    timeout: 5                            # Time the server has to respond.
+    min_games: 5                          # Minimum number of games in which the position must have occurred.
+    only_with_wins: false                 # Whether to play only moves that have won before.
+    selection: "performance"              # Move selection is "performance" or "win_rate".
+    anti: false                           # Whether to play the moves in which the opponent performs the worst.
 #   max_depth: 16                         # Half move max depth. (Comment this line for max depth)
-  online_moves:
-    opening_explorer:
-      enabled: false                      # Activate online moves from Lichess opening explorer. The move that has performed best for this bot is played.
-      priority: 200 # Priority with which this move source is used. Higher priority is used first.
-      use_for_variants: false             # Whether the Lichess opening explorer should be used for other variants than standard and chess960.
-      min_time: 20                        # Time the bot must have at least to use the online move.
-      timeout: 5                          # Time the server has to respond.
-      min_games: 5                        # Minimum number of games in which the position must have occurred.
-      only_with_wins: false               # Whether to play only moves that have won before.
-      selection: "performance"            # Move selection is "performance" or "win_rate".
-      anti: false                         # Whether to play the moves in which the opponent performs the worst.
-#     max_depth: 16                       # Half move max depth. (Comment this line for max depth)
-#     max_moves: 1                        # Max number of moves played from Lichess opening explorer. (Comment this line for max moves)
-    chessdb:
-      enabled: false                      # Activate online moves from https://chessdb.cn/queryc_en/
-      priority: 300 # Priority with which this move source is used. Higher priority is used first.
-      min_eval_depth: 10                  # Minimum evaluation depth.
-      min_time: 20                        # Time the bot must have at least to use the online move.
-      timeout: 5                          # Time the server has to respond.
-#     max_depth: 16                       # Half move max depth. (Comment this line for max depth)
-#     max_moves: 1                        # Max number of moves played from chessdb. (Comment this line for max moves)
-    lichess_cloud:
-      enabled: false                      # Activate online moves from Lichess cloud eval.
-      priority: 100 # Priority with which this move source is used. Higher priority is used first.
-      only_without_book: false            # Whether the cloud should only be used if there is no matching book.
-      min_eval_depth: 10                  # Minimum evaluation depth.
-      min_time: 20                        # Time the bot must have at least to use the online move.
-      timeout: 5                          # Time the server has to respond.
-#     max_depth: 16                       # Half move max depth. (Comment this line for max depth)
-#     max_moves: 1                        # Max number of moves played from Lichess cloud eval. (Comment this line for max moves)
-    online_egtb:
-      enabled: false                      # Activate online endgame tablebases from Lichess.
-      min_time: 10                        # Time the bot must have at least to use the online move.
-      timeout: 3                          # Time the server has to respond.
-  offer_draw:
-    enabled: true                         # Activate whether the bot should offer draw.
-    score: 10                             # If the absolute value of the score is less than or equal to this value, the bot offers/accepts draw (in cp)
-    consecutive_moves: 10                 # How many moves in a row the absolute value of the score has to be below the draw value
-    min_game_length: 35                   # Earliest move in which draw is offered.
-  resign:
-    enabled: false                        # Activate whether the bot should resign games.
-    score: -1000                          # If the score is less than or equal to this value, the bot resigns (in cp).
-    consecutive_moves: 5                  # How many moves in a row the score has to be below the resign value.
+#   max_moves: 1                          # Max number of moves played from Lichess opening explorer. (Comment this line for max moves)
+  lichess_cloud:
+    enabled: false                        # Activate online moves from Lichess cloud eval.
+    priority: 200                         # Priority with which this move source is used. Higher priority is used first.
+    only_without_book: false              # Whether the cloud should only be used if there is no matching book.
+    min_eval_depth: 10                    # Minimum evaluation depth.
+    min_time: 20                          # Time the bot must have at least to use the online move.
+    timeout: 5                            # Time the server has to respond.
+#   max_depth: 16                         # Half move max depth. (Comment this line for max depth)
+#   max_moves: 1                          # Max number of moves played from Lichess cloud eval. (Comment this line for max moves)
+  chessdb:
+    enabled: false                        # Activate online moves from https://chessdb.cn/queryc_en/
+    priority: 100                         # Priority with which this move source is used. Higher priority is used first.
+    min_eval_depth: 10                    # Minimum evaluation depth.
+    min_time: 20                          # Time the bot must have at least to use the online move.
+    timeout: 5                            # Time the server has to respond.
+#   max_depth: 16                         # Half move max depth. (Comment this line for max depth)
+#   max_moves: 1                          # Max number of moves played from chessdb. (Comment this line for max moves)
+  online_egtb:
+    enabled: false                        # Activate online endgame tablebases from Lichess.
+    min_time: 10                          # Time the bot must have at least to use the online move.
+    timeout: 3                            # Time the server has to respond.
+
+offer_draw:
+  enabled: true                           # Activate whether the bot should offer draw.
+  score: 10                               # If the absolute value of the score is less than or equal to this value, the bot offers/accepts draw (in cp)
+  consecutive_moves: 10                   # How many moves in a row the absolute value of the score has to be below the draw value
+  min_game_length: 35                     # Earliest move in which draw is offered.
+
+resign:
+  enabled: false                          # Activate whether the bot should resign games.
+  score: -1000                            # If the score is less than or equal to this value, the bot resigns (in cp).
+  consecutive_moves: 5                    # How many moves in a row the score has to be below the resign value.
 
 move_overhead_multiplier: 1.0             # Increase if your bot flags games too often. Default move overhead is 1 second per 1 minute initital time.
 
 challenge:                                # Incoming challenges. (Commenting allowed)
-  concurrency: 2                          # Number of games to play simultaneously.
+  concurrency: 1                          # Number of games to play simultaneously.
   bullet_with_increment_only: false       # Whether bullet games against BOTs should only be accepted with increment.
 # min_increment: 0                        # Minimum amount of increment to accept a challenge.
 # max_increment: 180                      # Maximum amount of increment to accept a challenge.
@@ -104,23 +119,23 @@ challenge:                                # Incoming challenges. (Commenting all
     - standard
     - chess960
 #   - fromPosition
-    - antichess
-    - atomic
-    - crazyhouse
-    - horde
-    - kingOfTheHill
-    - racingKings
-    - threeCheck
+#   - antichess
+#   - atomic
+#   - crazyhouse
+#   - horde
+#   - kingOfTheHill
+#   - racingKings
+#   - threeCheck
   time_controls:                          # Time controls to accept.
     - bullet
     - blitz
     - rapid
-    - classical
+#   - classical
   bot_modes:                              # Game modes to accept against BOTs.
 #   - casual                              # Unrated games.
     - rated                               # Rated games
   human_modes:                            # Game modes to accept against humans.
-#   - casual                              # Unrated games.
+    - casual                              # Unrated games.
     - rated                               # Rated games
 
 matchmaking:
@@ -152,7 +167,7 @@ messages:
   greeting: "Hey, I'm {me}, I'm running {engine} on {cpu} and {ram} of RAM. Good luck {oppnent}!" # Message sent to the opponent at the beginning of a game.
   goodbye: "Good game {opponent}, see you next time."                                             # Message sent to the opponent after the end of a game.
   greeting_spectators: "Hey, I'm running {engine} on {cpu} and {ram} of RAM. Type !help for a list of commands." # Message sent to the spectators at the beginning of a game.
-  goodbye_spectators: "Thanks for watching!"                                           # Message sent to the spectators after the end of a game.
+  goodbye_spectators: "Thanks for watching!"                                                      # Message sent to the spectators after the end of a game.
 
 # whitelist:                              # List of users whose challenges are always accepted.
 #   - Username1
