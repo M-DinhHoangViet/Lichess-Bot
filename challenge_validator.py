@@ -16,6 +16,11 @@ class Challenge_Validator:
         self.blacklist = config.get('blacklist', [])
 
     def get_decline_reason(self, challenge_event: dict) -> Decline_Reason | None:
+        speed = challenge_event['challenge']['speed']
+        if speed == 'correspondence':
+            print('Time control "Correspondence" is not supported by Lichess-Bot.')
+            return Decline_Reason.TIME_CONTROL
+
         variant = challenge_event['challenge']['variant']['key']
         if variant not in self.variants:
             print(f'Variant "{variant}" is not allowed according to config.')
@@ -47,6 +52,10 @@ class Challenge_Validator:
         if not self.time_controls:
             print('No time control is allowed according to config.')
             return Decline_Reason.GENERIC
+
+        if speed not in self.time_controls:
+            print(f'Time control "{speed}" is not allowed according to config.')
+            return Decline_Reason.TIME_CONTROL
 
         if increment < self.min_increment:
             print(f'Increment {increment} is too short according to config.')
