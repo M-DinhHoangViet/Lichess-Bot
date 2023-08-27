@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import timedelta
-
+from chess.polyglot import MemoryMappedReader
 from aliases import Challenge_ID
 from enums import Challenge_Color, Variant, Perf_Type
 
@@ -164,6 +164,14 @@ class Game_Information:
     @property
     def opponent_rating(self) -> int | None:
         return self.black_rating if self.is_white else self.white_rating
+
+
+@dataclass
+class Book_Settings:
+    selection: str = ''
+    max_depth: int = 600
+    readers: dict[str, MemoryMappedReader] = field(default_factory=dict)
+
 
 @dataclass
 class Matchmaking_Type:
