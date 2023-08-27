@@ -242,6 +242,6 @@ def _get_version() -> str:
         commit_date = output.decode('utf-8').strip()
         output = subprocess.check_output(['git', 'rev-parse', 'HEAD'], stderr=subprocess.DEVNULL)
         commit_SHA = output.decode('utf-8').strip()[:7]
-        return = f'{commit_date}-{commit_SHA}'
+        return f'{commit_date}-{commit_SHA}'
     except (FileNotFoundError, subprocess.CalledProcessError):
         return = __version__
