@@ -55,6 +55,7 @@ class Perf_Type(Enum):
     BLITZ = 'blitz'
     RAPID = 'rapid'
     CLASSICAL = 'classical'
+    CORRESPONDENCE = 'correspondence'
     ANTICHESS = 'antichess'
     ATOMIC = 'atomic'
     CHESS960 = 'chess960'
