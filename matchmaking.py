@@ -1,7 +1,10 @@
 import random
 from collections import defaultdict
 from datetime import datetime, timedelta
-
+from timer import Timer, seconds, minutes, days
+from collections import defaultdict
+from collections.abc import Sequence
+import lichess
 from api import API
 from botli_dataclasses import Bot, Challenge_Request, Challenge_Response, Matchmaking_Type
 from challenger import Challenger
@@ -9,6 +12,35 @@ from enums import Busy_Reason, Perf_Type, Variant
 from game import Game
 from opponents import Opponents
 from pending_challenge import Pending_Challenge
+from typing import Any, Optional
+USER_PROFILE_TYPE = dict[str, Any]
+EVENT_TYPE = dict[str, Any]
+MULTIPROCESSING_LIST_TYPE = Sequence[model.Challenge]
+DAILY_TIMERS_TYPE = list[Timer]
+logger = logging.getLogger(__name__)
+
+daily_challenges_file_name = "daily_challenge_times.txt"
+timestamp_format = "%Y-%m-%d %H:%M:%S\n"
+
+
+def read_daily_challenges() -> DAILY_TIMERS_TYPE:
+    """Read the challenges we have created in the past 24 hours from a text file."""
+    timers: DAILY_TIMERS_TYPE = []
+    try:
+        with open(daily_challenges_file_name) as file:
+            for line in file:
+                timers.append(Timer(days(1), datetime.datetime.strptime(line, timestamp_format)))
+    except FileNotFoundError:
+        pass
+
+    return [timer for timer in timers if not timer.is_expired()]
+
+
+def write_daily_challenges(daily_challenges: DAILY_TIMERS_TYPE) -> None:
+    """Write the challenges we have created in the past 24 hours to a text file."""
+    with open(daily_challenges_file_name, "w") as file:
+        for timer in daily_challenges:
+            file.write(timer.starting_timestamp(timestamp_format))
 
 
 class Matchmaking:
@@ -167,6 +199,9 @@ class Matchmaking:
     def _variant_to_perf_type(self, variant: Variant, initial_time: int, increment: int) -> Perf_Type:
         if variant != Variant.STANDARD:
             return Perf_Type(variant.value)
+
+        if days:
+            return Perf_Type.CORRESPONDENCE
 
         estimated_game_duration = initial_time + increment * 40
         if estimated_game_duration < 179:
