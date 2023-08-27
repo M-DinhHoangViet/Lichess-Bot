@@ -1,9 +1,7 @@
 import random
 from collections import defaultdict
 from datetime import datetime, timedelta
-from timer import Timer, seconds, minutes, days
-from collections import defaultdict
-from collections.abc import Sequence
+from timer import Timer, days
 import lichess
 from api import API
 from botli_dataclasses import Bot, Challenge_Request, Challenge_Response, Matchmaking_Type
@@ -13,18 +11,15 @@ from game import Game
 from opponents import Opponents
 from pending_challenge import Pending_Challenge
 from typing import Any, Optional
-USER_PROFILE_TYPE = dict[str, Any]
-EVENT_TYPE = dict[str, Any]
-MULTIPROCESSING_LIST_TYPE = Sequence[model.Challenge]
 DAILY_TIMERS_TYPE = list[Timer]
 logger = logging.getLogger(__name__)
 
-daily_challenges_file_name = "daily_challenge_times.txt"
-timestamp_format = "%Y-%m-%d %H:%M:%S\n"
+daily_challenges_file_name = 'daily_challenge_times.txt'
+timestamp_format = '%Y-%m-%d %H:%M:%S\n'
 
 
 def read_daily_challenges() -> DAILY_TIMERS_TYPE:
-    """Read the challenges we have created in the past 24 hours from a text file."""
+    '''Read the challenges we have created in the past 24 hours from a text file.'''
     timers: DAILY_TIMERS_TYPE = []
     try:
         with open(daily_challenges_file_name) as file:
@@ -37,8 +32,8 @@ def read_daily_challenges() -> DAILY_TIMERS_TYPE:
 
 
 def write_daily_challenges(daily_challenges: DAILY_TIMERS_TYPE) -> None:
-    """Write the challenges we have created in the past 24 hours to a text file."""
-    with open(daily_challenges_file_name, "w") as file:
+    '''Write the challenges we have created in the past 24 hours to a text file.'''
+    with open(daily_challenges_file_name, 'w') as file:
         for timer in daily_challenges:
             file.write(timer.starting_timestamp(timestamp_format))
 
