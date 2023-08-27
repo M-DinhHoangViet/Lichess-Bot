@@ -244,4 +244,4 @@ def _get_version() -> str:
         commit_SHA = output.decode('utf-8').strip()[:7]
         return f'{commit_date}-{commit_SHA}'
     except (FileNotFoundError, subprocess.CalledProcessError):
-        return = __version__
+        return __version__
