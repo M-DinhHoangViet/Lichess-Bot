@@ -48,10 +48,6 @@ class Challenge_Validator:
             print('No time control is allowed according to config.')
             return Decline_Reason.GENERIC
 
-        if speed not in self.time_controls:
-            print(f'Time control "{speed}" is not allowed according to config.')
-            return Decline_Reason.TIME_CONTROL
-
         if increment < self.min_increment:
             print(f'Increment {increment} is too short according to config.')
             return Decline_Reason.TOO_FAST
