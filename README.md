@@ -8,6 +8,7 @@ Supports:
 - Offering Draw / Resigning
 - Local & Online Opening Books
 - Local & Online Endgame Tablebases
+- Supports custom opening books and engines depending on color, time control and Lichess chess variant.
 
 # Steps
 1. [Install Lichess-Bot](https://github.com/M-DinhHoangViet/Lichess-Bot/wiki/How-to-Install)
