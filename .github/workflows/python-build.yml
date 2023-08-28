@@ -41,8 +41,3 @@ jobs:
     - name: Lint with flake8-docstrings
       run: |
         flake8 . --count --max-line-length=127 --statistics --select=D
-
-      with:
-        path: |
-          TEMP
-        key: ${{ steps.cache-temp-restore.outputs.cache-primary-key }}
