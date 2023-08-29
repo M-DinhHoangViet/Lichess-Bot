@@ -21,7 +21,7 @@ restart = True
 def check_python_version() -> None:
     '''Raise a warning or an exception if the version isn't supported or is deprecated.'''
     def version_numeric(version_str: str) -> list[int]:
-        return [int(n) for n in version_str.split(".")]
+        return [int(n) for n in version_str.split('.')]
 
     python_deprecated_version = version_numeric(versioning_info['deprecated_python_version'])
     python_good_version = version_numeric(versioning_info['minimum_python_version'])
