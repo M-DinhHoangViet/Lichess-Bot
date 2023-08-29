@@ -304,6 +304,7 @@ def _init_opening_books(config: dict) -> None:
 
         settings['names'] = {book_name: config['books'][book_name] for book_name in settings['names']}
 
+
 def _get_version() -> str:
     try:
         output = subprocess.check_output(['git', 'show', '-s', '--date=format:%Y%m%d',
