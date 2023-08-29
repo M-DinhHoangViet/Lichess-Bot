@@ -19,24 +19,24 @@ terminated = False
 restart = True
 
 def check_python_version() -> None:
-    """Raise a warning or an exception if the version isn't supported or is deprecated."""
+    '''Raise a warning or an exception if the version isn't supported or is deprecated.'''
     def version_numeric(version_str: str) -> list[int]:
         return [int(n) for n in version_str.split(".")]
 
-    python_deprecated_version = version_numeric(versioning_info["deprecated_python_version"])
-    python_good_version = version_numeric(versioning_info["minimum_python_version"])
-    version_change_date = versioning_info["deprecation_date"]
+    python_deprecated_version = version_numeric(versioning_info['deprecated_python_version'])
+    python_good_version = version_numeric(versioning_info['minimum_python_version'])
+    version_change_date = versioning_info['deprecation_date']
     this_python_version = list(sys.version_info[0:2])
 
     def version_str(version: list[int]) -> str:
         return f"Python {'.'.join(str(n) for n in version)}"
 
-    upgrade_request = (f"You are currently running {version_str(this_python_version)}. "
-                       f"Please upgrade to {version_str(python_good_version)} or newer")
-    out_of_date_error = RuntimeError("A newer version of Python is required "
-                                     f"to run this version of Lichess-Bot. {upgrade_request}.")
-    out_of_date_warning = ("A newer version of Python will be required "
-                           f"on {version_change_date} to run Lichess-Bot. {upgrade_request} before then.")
+    upgrade_request = (f'You are currently running {version_str(this_python_version)}. '
+                       f'Please upgrade to {version_str(python_good_version)} or newer')
+    out_of_date_error = RuntimeError('A newer version of Python is required '
+                                     f'to run this version of Lichess-Bot. {upgrade_request}.')
+    out_of_date_warning = ('A newer version of Python will be required '
+                           f'on {version_change_date} to run Lichess-Bot. {upgrade_request} before then.')
 
     this_lichess_bot_version = version_numeric(__version__)
     lichess_bot_breaking_version = list(version_change_date.timetuple()[0:3])
