@@ -16,8 +16,8 @@ Supports:
 4. [Setup the engine](https://github.com/M-DinhHoangViet/Lichess-Bot/wiki/Setup-the-engine)
 6. [Upgrade and Run BOT account](https://github.com/M-DinhHoangViet/Lichess-Bot/wiki/How-to-Run-lichess-bot)
 
-
-<br />
+Video make it in Vietnamese
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AtfqrenOOrU?si=jjx_diaCrDfJg2Pg&amp;start=14" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 # Acknowledgements
 Thanks to the Lichess team, especially T. Alexander Lystad and Thibault Duplessis for working with the LeelaChessZero team to get this API up. Thanks to the [Torom](https://github.com/Torom) made to [Torom/BotLi](https://github.com/Torom/BotLi) is original. Thanks to the @niklasf and his [python-chess](https://github.com/niklasf/python-chess) code which allows engine communication seamlessly. In addition, the idea of this bot is based on [lichess-bot-devs/lichess-bot](https://github.com/lichess-bot-devs/lichess-bot).
