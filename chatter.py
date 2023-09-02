@@ -89,10 +89,10 @@ class Chatter:
             return self.last_message
 
         if command == 'motor':
-            return self.lichess_game.engine.id['name']
+            return self.lichess_game.engine.name
 
         if command == 'info':
-            return f'@{self.api.username} running {self.lichess_game.engine.id["name"]} (Lichess-Bot {self.version})'
+            return f'@{self.api.username} running {self.lichess_game.engine.name} (Lichess-Bot {self.version})'
 
         if command == 'printeval':
             if not self.game_info.increment_ms and self.game_info.initial_time_ms < 180_000:
