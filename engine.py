@@ -43,7 +43,7 @@ class Engine:
             uci_options['SyzygyProbeLimit'] = syzygy_config['max_pieces']
 
         return engine_path, ponder, stderr, uci_options
-        
+
     @classmethod
     def test(cls, engine_config: dict, syzygy_config: dict) -> None:
         engine_path, _, stderr, uci_options = cls._get_engine_settings(engine_config, syzygy_config)
