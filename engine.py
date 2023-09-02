@@ -43,6 +43,17 @@ class Engine:
             uci_options['SyzygyProbeLimit'] = syzygy_config['max_pieces']
 
         return engine_path, ponder, stderr, uci_options
+        
+    @classmethod
+    def test(cls, engine_config: dict, syzygy_config: dict) -> None:
+        engine_path, _, stderr, uci_options = cls._get_engine_settings(engine_config, syzygy_config)
+
+        with chess.engine.SimpleEngine.popen_uci(engine_path, stderr=stderr) as engine:
+            cls._configure_engine(engine, uci_options)
+            result = engine.play(chess.Board(), chess.engine.Limit(time=0.1), info=chess.engine.INFO_ALL)
+
+            if not result.move:
+                raise RuntimeError('Engine could not make a move!')
 
     @staticmethod
     def _configure_engine(engine: chess.engine.SimpleEngine, uci_options: dict) -> None:
