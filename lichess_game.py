@@ -451,7 +451,7 @@ class Lichess_Game:
         self.engine.stop_pondering()
         return move, f'Gaviota: {self._format_move(move):14} {egtb_info}', [], offer_draw, resign
 
-    def _make_syzygy_move(self) -> tuple[chess.Move, Message, [], Offer_Draw, Resign] | None:
+    def _make_syzygy_move(self) -> tuple[chess.Move, Message, PV, Offer_Draw, Resign] | None:
         assert self.syzygy_tablebase
         is_endgame = chess.popcount(self.board.occupied) <= self.config['syzygy']['max_pieces']
         incompatible_variant = self.board.uci_variant not in ['chess', 'antichess', 'atomic']
