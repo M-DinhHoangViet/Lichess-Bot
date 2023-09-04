@@ -5,15 +5,8 @@ from collections import defaultdict
 import psutil
 
 from api import API
-from botli_dataclasses import Game_Information
+from botli_dataclasses import Chat_Message, Game_Information
 from lichess_game import Lichess_Game
-
-
-class Chat_Message:
-    def __init__(self, chatLine_event: dict) -> None:
-        self.username: str = chatLine_event['username']
-        self.text: str = chatLine_event['text']
-        self.room: str = chatLine_event['room']
 
 
 class Chatter:
@@ -37,7 +30,7 @@ class Chatter:
         return ' '.join(last_message.split())
 
     def handle_chat_message(self, chatLine_Event: dict) -> None:
-        chat_message = Chat_Message(chatLine_Event)
+        chat_message = Chat_Message.from_chatLine_event(chatLine_Event)
 
         if chat_message.username == 'lichess':
             if chat_message.room == 'player':
@@ -53,8 +46,11 @@ class Chatter:
     def print_eval(self) -> None:
         if not self.game_info.increment_ms and self.lichess_game.own_time_ms < 30_000:
             return
-        for room in self.print_eval_rooms:
-            self.api.send_chat_message(self.game_info.id_, room, self.last_message)
+        if 'player' in self.print_eval_rooms:
+            self.api.send_chat_message(self.game_info.id_, 'player', self.last_message)
+
+        if 'spectator' in self.print_eval_rooms:
+            self.api.send_chat_message(self.game_info.id_, 'spectator', self._append_pv(self.last_message))
 
     def send_greetings(self) -> None:
         if self.player_greeting:
@@ -86,7 +82,11 @@ class Chatter:
             return self.draw_message
 
         if command == 'eval':
-            return self.last_message
+            if chat_message.room == 'player':
+                return self.last_message
+
+            if chat_message.room == 'spectator':
+                return self._append_pv(self.last_message)
 
         if command == 'motor':
             return self.lichess_game.engine.name
@@ -103,11 +103,24 @@ class Chatter:
         if command == 'stopeval':
             self.print_eval_rooms.discard(chat_message.room)
 
+        if command == 'pv':
+            if chat_message.room == 'player':
+                return
+
+            if message := self._append_pv():
+                return message
+
+            return 'No PV available.'
+
         if command == 'ram':
             return self.ram_message
 
         if command in ['help', 'commands']:
-            return 'Supported commands: !info , !draw, !eval, !printeval/!stopeval, !cpu, !ram, !motor'
+            if chat_message.room == 'player':
+                return 'Supported commands: !cpu, !draw, !eval, !motor, !name, !printeval / !stopeval, !ram'
+
+            if chat_message.room == 'spectator':
+                return 'Supported commands: !cpu, !draw, !eval, !motor, !name, !printeval / !stopeval, !pv, !ram'
 
     def _get_cpu(self) -> str:
         cpu = ''
@@ -166,3 +179,29 @@ class Chatter:
                                     'engine': self.lichess_game.engine.name, 'cpu': self.cpu_message,
                                     'ram': self.ram_message})
         return message.format_map(mapping)
+
+    def _append_pv(self, initial_message: str = '') -> str:
+        if len(self.lichess_game.last_pv) < 2:
+            return initial_message
+
+        if initial_message:
+            initial_message += ' '
+
+        board = self.lichess_game.board.copy(stack=False)
+
+        if board.turn:
+            initial_message += 'PV:'
+        else:
+            initial_message += f'PV: {board.fullmove_number}...'
+
+        final_message = initial_message
+        for move in self.lichess_game.last_pv[1:]:
+            if board.turn:
+                initial_message += f' {board.fullmove_number}.'
+            initial_message += f' {board.san(move)}'
+            board.push(move)
+            if len(initial_message) > 140:
+                break
+            final_message = initial_message
+
+        return final_message
