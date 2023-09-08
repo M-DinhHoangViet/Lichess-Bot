@@ -449,7 +449,7 @@ class Lichess_Game:
             return
 
         self.engine.stop_pondering()
-        return move, f'Gaviota: {self._format_move(move):14} {egtb_info}', PV, offer_draw, resign
+        return move, f'Gaviota: {self._format_move(move):14} {egtb_info}', [], offer_draw, resign
 
     def _make_syzygy_move(self) -> tuple[chess.Move, Message, PV, Offer_Draw, Resign] | None:
         assert self.syzygy_tablebase
