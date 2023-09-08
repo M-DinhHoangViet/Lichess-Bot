@@ -46,7 +46,7 @@ class Chatter:
     def print_eval(self) -> None:
         if not self.game_info.increment_ms and self.lichess_game.own_time_ms < 30_000:
             return
-            
+
         for room in self.print_eval_rooms:
             self.api.send_chat_message(self.game_info.id_, room, self._get_last_message(room))
 
