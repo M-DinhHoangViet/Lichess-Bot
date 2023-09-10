@@ -31,7 +31,7 @@ class Opponent:
             release_time = datetime.fromisoformat(value['release_time'])
             data[Perf_Type(key)] = Matchmaking_Data(release_time, value['multiplier'])
 
-       return cls(username, data)
+        return cls(username, data)
 
     def to_dict(self) -> dict:
         dict_: dict[str, str | dict] = {'username': self.username}
