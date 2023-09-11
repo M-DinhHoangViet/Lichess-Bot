@@ -1,0 +1,18 @@
+# Comment to a new issue.
+issuesOpened: >
+  Thank you for raising an issue.
+
+  Please make sure you have given us as much context as possible. @M-DinhHoangviet will review this issues soon!
+
+pullRequestOpened: >
+  Thank you for raising your pull request.
+
+  @M-DinhHoangviet will review this pull request soon!
+
+issuesReopened: >
+  Wait, something seems wrong
+
+issuesClosed: >
+  This issue may have been resolved
+
+  
