@@ -71,6 +71,7 @@ def load_config(config_path: str) -> dict:
     _check_resign_sections(config['resign'])
     _check_matchmaking_sections(config['matchmaking'])
     _init_lists(config)
+    _check_messages(config['messages'])
     _init_engines(config['engines'])
     _init_opening_books(config)
     config['version'] = _get_version()
@@ -261,6 +262,13 @@ def _init_lists(config: dict) -> None:
             raise TypeError('If uncommented, "blacklist" must be a list of usernames.')
 
         config['blacklist'] = [username.lower() for username in config['blacklist']]
+
+
+def _check_messages(messages_section: dict) -> None:
+    for message_name, message in messages_section.items():
+        if message == '!printeval':
+            print(f'Ignoring message "{message_name}": "!printeval" is not allowed in messages.')
+            messages_section[message_name] = None
 
 
 def _init_engines(engines_section: dict) -> None:
