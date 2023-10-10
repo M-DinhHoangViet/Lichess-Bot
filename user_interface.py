@@ -29,7 +29,7 @@ COMMANDS = {
     'matchmaking': 'Starts matchmaking mode.',
     'quit': 'Exits the bot.',
     'clear': 'Clears the challenge queue.',
-    'reset': 'Resets matchmaking. Usage: reset [PERF_TYPE]',
+    'reset': 'Resets matchmaking. Usage: reset PERF_TYPE',
     'stop': 'Stops matchmaking mode.'
 }
 
