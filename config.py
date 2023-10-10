@@ -266,7 +266,7 @@ def _init_lists(config: dict) -> None:
 
 def _check_messages(messages_section: dict) -> None:
     for message_name, message in messages_section.items():
-        if message == '!printeval':
+        if message.strip()  == '!printeval':
             print(f'Ignoring message "{message_name}": "!printeval" is not allowed in messages.')
             messages_section[message_name] = None
 
