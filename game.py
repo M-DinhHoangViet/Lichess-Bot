@@ -3,7 +3,7 @@ from queue import Queue
 from threading import Event, Thread
 
 from api import API
-from botli_dataclasses import Game_Information
+from lichess_bot_dataclasses import Game_Information
 from chatter import Chatter
 from enums import Game_Status
 from lichess_game import Lichess_Game
@@ -36,7 +36,7 @@ class Game(Thread):
 
         self.chatter.send_greetings()
 
-        if self._finish_game(self.game_info.state.get("winner")):
+        if self._finish_game(self.game_info.state.get('winner')):
             self.lichess_game.end_game()
             return
 
@@ -51,26 +51,26 @@ class Game(Thread):
         while True:
             event = game_queue.get()
 
-            if event["type"] not in ["gameFull", "gameState"]:
+            if event['type'] not in ['gameFull', 'gameState']:
                 if self.lichess_game.is_abortable and datetime.now() >= abortion_time:
-                    print("Aborting game ...")
+                    print('Aborting game ...')
                     self.api.abort_game(self.game_id)
                     self.chatter.send_abortion_message()
 
-            if event["type"] == "gameFull":
-                self.lichess_game.update(event["state"])
+            if event['type'] == 'gameFull':
+                self.lichess_game.update(event['state'])
 
-                if self._finish_game(event["state"].get("winner")):
+                if self._finish_game(event['state'].get('winner')):
                     break
 
                 if self.lichess_game.is_our_turn:
                     self._make_move()
                 else:
                     self.lichess_game.start_pondering()
-            elif event["type"] == "gameState":
+            elif event['type'] == 'gameState':
                 updated = self.lichess_game.update(event)
 
-                if self._finish_game(event.get("winner")):
+                if self._finish_game(event.get('winner')):
                     break
 
                 if self.lichess_game.is_game_over:
@@ -78,11 +78,11 @@ class Game(Thread):
 
                 if self.lichess_game.is_our_turn and updated:
                     self._make_move()
-            elif event["type"] == "chatLine":
+            elif event['type'] == 'chatLine':
                 self.chatter.handle_chat_message(event)
-            elif event["type"] == "opponentGone":
+            elif event['type'] == 'opponentGone':
                 continue
-            elif event["type"] == "ping":
+            elif event['type'] == 'ping':
                 continue
             else:
                 print(event)
@@ -115,63 +115,63 @@ class Game(Thread):
     def _print_game_information(self) -> None:
         assert self.game_info
 
-        opponents_str = f"{self.game_info.white_str}   -   {self.game_info.black_str}"
-        delimiter = 5 * " "
+        opponents_str = f'{self.game_info.white_str}   -   {self.game_info.black_str}'
+        delimiter = 5 * ' '
 
         print()
         print(delimiter.join([self.game_info.id_str, opponents_str, self.game_info.tc_str,
                               self.game_info.rated_str, self.game_info.variant_str]))
-        print(128 * "‾")
+        print(128 * '‾')
 
     def _print_result_message(self, winner: str | None) -> None:
         assert self.lichess_game
         assert self.game_info
 
         if winner:
-            if winner == "white":
-                message = f"{self.game_info.white_name_str} won"
+            if winner == 'white':
+                message = f'{self.game_info.white_name_str} won'
                 loser = self.game_info.black_name_str
-                white_result = "1"
-                black_result = "0"
+                white_result = '1'
+                black_result = '0'
             else:
-                message = f"{self.game_info.black_name_str} won"
+                message = f'{self.game_info.black_name_str} won'
                 loser = self.game_info.white_name_str
-                white_result = "0"
-                black_result = "1"
+                white_result = '0'
+                black_result = '1'
 
             if self.lichess_game.status == Game_Status.MATE:
-                message += " by checkmate!"
+                message += ' by checkmate!'
             elif self.lichess_game.status == Game_Status.OUT_OF_TIME:
-                message += f"! {loser} ran out of time."
+                message += f'! {loser} ran out of time.'
             elif self.lichess_game.status == Game_Status.RESIGN:
-                message += f"! {loser} resigned."
+                message += f'! {loser} resigned.'
             elif self.lichess_game.status == Game_Status.VARIANT_END:
-                message += " by variant rules!"
+                message += ' by variant rules!'
         else:
-            white_result = "½"
-            black_result = "½"
+            white_result = '½'
+            black_result = '½'
 
             if self.lichess_game.status == Game_Status.DRAW:
                 if self.lichess_game.board.is_fifty_moves():
-                    message = "Game drawn by 50-move rule."
+                    message = 'Game drawn by 50-move rule.'
                 elif self.lichess_game.board.is_repetition():
-                    message = "Game drawn by threefold repetition."
+                    message = 'Game drawn by threefold repetition.'
                 elif self.lichess_game.board.is_insufficient_material():
-                    message = "Game drawn due to insufficient material."
+                    message = 'Game drawn due to insufficient material.'
                 elif self.lichess_game.board.is_variant_draw():
-                    message = "Game drawn by variant rules."
+                    message = 'Game drawn by variant rules.'
                 else:
-                    message = "Game drawn by agreement."
+                    message = 'Game drawn by agreement.'
             elif self.lichess_game.status == Game_Status.STALEMATE:
-                message = "Game drawn by stalemate."
+                message = 'Game drawn by stalemate.'
             else:
-                message = "Game aborted."
+                message = 'Game aborted.'
 
-                white_result = "X"
-                black_result = "X"
+                white_result = 'X'
+                black_result = 'X'
 
-        opponents_str = f"{self.game_info.white_str} {white_result} - {black_result} {self.game_info.black_str}"
-        delimiter = 5 * " "
+        opponents_str = f'{self.game_info.white_str} {white_result} - {black_result} {self.game_info.black_str}'
+        delimiter = 5 * ' '
 
         print(delimiter.join([self.game_info.id_str, opponents_str, message]))
-        print(128 * "‾")
+        print(128 * '‾')

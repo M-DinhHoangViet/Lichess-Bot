@@ -1,7 +1,7 @@
 from threading import Event
 
 from aliases import Challenge_ID, Has_Reached_Rate_Limit, Is_Misconfigured, Success
-from botli_dataclasses import Challenge_Response
+from lichess_bot_dataclasses import Challenge_Response
 
 
 class Pending_Challenge:
@@ -14,12 +14,12 @@ class Pending_Challenge:
         self._is_misconfigured: Is_Misconfigured | None = None
 
     def get_challenge_id(self) -> Challenge_ID | None:
-        """ This is blocking """
+        ''' This is blocking '''
         self._challenge_id_event.wait()
         return self._challenge_id
 
     def get_final_state(self) -> tuple[Success, Has_Reached_Rate_Limit, Is_Misconfigured]:
-        """ This is blocking """
+        ''' This is blocking '''
         self._finished_event.wait()
         return bool(self._success), bool(self._has_reached_rate_limit), bool(self._is_misconfigured)
 
