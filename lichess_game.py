@@ -50,7 +50,7 @@ class Lichess_Game:
 
     def make_move(self) -> tuple[UCI_Move, Offer_Draw, Resign]:
         for move_source in self.move_sources:
-            if response := move_source():
+            if move_response := move_source():
                 break
         else:
             move, info = self.engine.make_move(self.board, *self.engine_times)
@@ -432,13 +432,6 @@ class Lichess_Game:
                 except chess.gaviota.MissingTableError:
                     return
 
-            if wdl == 0:
-                if board_copy.is_check():
-                    dtm -= 1
-
-                if self.board.is_capture(move):
-                    dtm -= 2
-
             if best_moves:
                 if wdl > best_wdl:
                     best_moves = [move]
@@ -461,7 +454,7 @@ class Lichess_Game:
             offer_draw = False
             resign = False
         elif best_wdl == 0:
-            move = best_moves[0]
+            move = random.choice(best_moves)
             egtb_info = self._format_egtb_info('draw', dtm=0)
             offer_draw = True
             resign = False
@@ -505,13 +498,6 @@ class Lichess_Game:
                 elif wdl > 0:
                     dtz -= 10_000
 
-            if wdl == 0:
-                if board_copy.is_check():
-                    dtz -= 1
-
-                if self.board.is_capture(move):
-                    dtz -= 2
-
             if best_moves:
                 if wdl > best_wdl:
                     best_moves = [move]
@@ -542,12 +528,12 @@ class Lichess_Game:
             offer_draw = False
             resign = False
         elif best_wdl == 0:
-            move = best_moves[0]
+            move = random.choice(best_moves)
             egtb_info = self._format_egtb_info('draw', dtz=best_real_dtz)
             offer_draw = True
             resign = False
         elif best_wdl == -1:
-            move = best_moves[0]
+            move = random.choice(best_moves)
             egtb_info = self._format_egtb_info('blessed loss', dtz=best_real_dtz)
             offer_draw = True
             resign = False
