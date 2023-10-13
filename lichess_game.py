@@ -11,7 +11,7 @@ from chess.variant import find_variant
 
 from aliases import DTM, DTZ, Offer_Draw, Outcome, Performance, Resign, UCI_Move
 from api import API
-from botli_dataclasses import Book_Settings, Game_Information, Move_Response
+from lichess_bot_dataclasses import Book_Settings, Game_Information, Move_Response
 from engine import Engine
 from enums import Game_Status, Variant
 
