@@ -63,8 +63,8 @@ class Lichess_Game:
             move_response = Move_Response(move, message,
                                           pv=info.get('pv', []),
                                           is_drawish=self._is_draw_eval(),
-                                          is_engine_move=len(self.board.move_stack) > 1),
-                                          is_resignable=self._is_resign_eval()
+                                          is_resignable=self._is_resign_eval(),
+                                          is_engine_move=len(self.board.move_stack) > 1)
 
         self.board.push(move_response.move)
         if not move_response.is_engine_move:
