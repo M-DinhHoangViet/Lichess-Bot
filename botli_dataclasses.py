@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import timedelta
+
+import chess
 from chess.polyglot import MemoryMappedReader
 from aliases import Challenge_ID
 from enums import Challenge_Color, Variant, Perf_Type
@@ -232,3 +234,14 @@ class Matchmaking_Type:
         delimiter = 5 * ' '
 
         return delimiter.join([name_str, tc_str, rated_str, variant_str])
+
+
+@dataclass
+class Move_Response:
+    move: chess.Move
+    public_message: str
+    private_message: str = field(default='', kw_only=True)
+    pv: list[chess.Move] = field(default_factory=list, kw_only=True)
+    is_drawish: bool = field(default=False, kw_only=True)
+    is_resignable: bool = field(default=False, kw_only=True)
+    is_engine_move: bool = field(default=False, kw_only=True)
