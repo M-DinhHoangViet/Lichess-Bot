@@ -36,7 +36,7 @@ class Chatter:
             prefix = f'{chat_message.username} ({chat_message.room}): '
             output = prefix + chat_message.text
             if len(output) > 128:
-                output = f'{output[:128]}\n{len(prefix) * " "}{output[128:]}'
+                output = f'{output[:128]}\n{len(prefix) * ' '}{output[128:]}'
 
             print(output)
 

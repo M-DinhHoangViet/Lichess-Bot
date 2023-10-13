@@ -15,13 +15,13 @@ logger = logging.getLogger(__name__)
 class API:
     def __init__(self, config: dict) -> None:
         self.session = requests.session()
-        self.session.headers.update({'Authorization': f'Bearer {config["token"]}'})
-        self.session.headers.update({'User-Agent': f'Lichess-Bot/{config["version"]}'})
+        self.session.headers.update({'Authorization': f'Bearer {config['token']}'})
+        self.session.headers.update({'User-Agent': f'Lichess-Bot/{config['version']}'})
 
         account = self.get_account()
         self.username: str = account['username']
         self.user_title: str | None = account.get('title')
-        self.session.headers.update({'User-Agent': f'Lichess-Bot/{config["version"]} user:{self.username}'})
+        self.session.headers.update({'User-Agent': f'Lichess-Bot/{config['version']} user:{self.username}'})
 
     @retry(retry=retry_if_exception_type((requests.ConnectionError, requests.Timeout)), after=after_log(logger, logging.DEBUG))
     def abort_game(self, game_id: str) -> bool:
@@ -94,7 +94,7 @@ class API:
         response = self.session.get('https://lichess.org/api/account', timeout=3.0)
         json_response = response.json()
         if 'error' in json_response:
-            raise RuntimeError(f'Account error: {json_response["error"]}')
+            raise RuntimeError(f'Account error: {json_response['error']}')
 
         return json_response
 

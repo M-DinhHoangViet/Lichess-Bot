@@ -274,16 +274,16 @@ def _check_messages(messages_section: dict) -> None:
 def _init_engines(engines_section: dict) -> None:
     for settings in engines_section.values():
         if not os.path.isdir(settings['dir']):
-            raise RuntimeError(f'Your engine directory "{settings["dir"]}" is not a directory.')
+            raise RuntimeError(f'Your engine directory "{settings['dir']}" is not a directory.')
 
         settings['path'] = os.path.join(settings['dir'], settings['name'])
 
         if not os.path.isfile(settings['path']):
-            raise RuntimeError(f'The engine "{settings["path"]}" file does not exist.')
+            raise RuntimeError(f'The engine "{settings['path']}" file does not exist.')
 
         if not os.access(settings['path'], os.X_OK):
-            raise RuntimeError(f'The engine "{settings["path"]}" doesnt have execute (x) permission. '
-                               f'Try: chmod +x {settings["path"]}')
+            raise RuntimeError(f'The engine "{settings['path']}" doesnt have execute (x) permission. '
+                               f'Try: chmod +x {settings['path']}')
 
 
 def _init_opening_books(config: dict) -> None:
@@ -308,7 +308,7 @@ def _init_opening_books(config: dict) -> None:
                 raise RuntimeError(f'The book "{book_name}" is not defined in the books section.')
 
             if not os.path.isfile(config['books'][book_name]):
-                raise RuntimeError(f'The book "{book_name}" at "{config["books"][book_name]}" does not exist.')
+                raise RuntimeError(f'The book "{book_name}" at "{config['books'][book_name]}" does not exist.')
 
         settings['names'] = {book_name: config['books'][book_name] for book_name in settings['names']}
 

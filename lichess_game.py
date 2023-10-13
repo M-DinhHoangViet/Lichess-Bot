@@ -321,8 +321,8 @@ class Lichess_Game:
                     move = chess.Move.from_uci(top_move['uci'])
                     if not self._is_repetition(move):
                         self.opening_explorer_counter += 1
-                        message = f'Explore: {self._format_move(move):14} Performance: {top_move["performance"]}' \
-                                  f'WDL: {top_move["wins"]}/{top_move["draws"]}/{top_move["losses"]}'
+                        message = f'Explore: {self._format_move(move):14} Performance: {top_move['performance']}' \
+                                  f'WDL: {top_move['wins']}/{top_move['draws']}/{top_move['losses']}'
                         return Move_Response(move, message)
 
             self.out_of_opening_explorer_counter += 1
@@ -371,7 +371,7 @@ class Lichess_Game:
                         self.cloud_counter += 1
                         pov_score = chess.engine.PovScore(chess.engine.Cp(response['pvs'][0]['cp']), chess.WHITE)
                         message = f'Cloud:   {self._format_move(pv[0]):14} {self._format_score(pov_score)}' \
-                                  f'Depth: {response["depth"]}'
+                                  f'Depth: {response['depth']}'
                         return Move_Response(pv[0], message, pv=pv)
 
             self.out_of_cloud_counter += 1
@@ -402,7 +402,7 @@ class Lichess_Game:
                         self.chessdb_counter += 1
                         pov_score = chess.engine.PovScore(chess.engine.Cp(response['score']), self.board.turn)
                         message = f'ChessDB: {self._format_move(pv[0]):14} {self._format_score(pov_score)}' \
-                                  f'Depth: {response["depth"]}'
+                                  f'Depth: {response['depth']}'
                         return Move_Response(pv[0], message, pv=pv)
 
             self.out_of_chessdb_counter += 1

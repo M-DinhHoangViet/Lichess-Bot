@@ -60,7 +60,7 @@ class Event_Handler(Thread):
                 if opponent_name == self.api.username:
                     continue
 
-                print(f'{opponent_name} declined challenge: {event["challenge"]["declineReason"]}')
+                print(f'{opponent_name} declined challenge: {event['challenge']['declineReason']}')
             elif event['type'] == 'challengeCanceled':
                 if event['challenge']['challenger']['name'] == self.api.username:
                     continue
@@ -73,16 +73,16 @@ class Event_Handler(Thread):
                 print(event)
 
     def _print_challenge_event(self, challenge_event: dict) -> None:
-        id_str = f'ID: {challenge_event["challenge"]["id"]}'
+        id_str = f'ID: {challenge_event['challenge']['id']}'
         title = challenge_event['challenge']['challenger'].get('title') or ''
         name = challenge_event['challenge']['challenger']['name']
         rating = challenge_event['challenge']['challenger']['rating']
         provisional = '?' if challenge_event['challenge']['challenger'].get('provisional') else ''
         challenger_str = f'Challenger: {title}{" " if title else ""}{name} ({rating}{provisional})'
-        tc_str = f'TC: {challenge_event["challenge"]["timeControl"]}'
+        tc_str = f'TC: {challenge_event['challenge']['timeControl']}'
         rated_str = 'Rated' if challenge_event['challenge']['rated'] else 'Casual'
-        color_str = f'Color: {challenge_event["challenge"]["color"].capitalize()}'
-        variant_str = f'Variant: {challenge_event["challenge"]["variant"]["name"]}'
+        color_str = f'Color: {challenge_event['challenge']['color'].capitalize()}'
+        variant_str = f'Variant: {challenge_event['challenge']['variant']['name']}'
         delimiter = 5 * ' '
 
         print(128 * '_')
