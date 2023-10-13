@@ -15,13 +15,13 @@ logger = logging.getLogger(__name__)
 class API:
     def __init__(self, config: dict) -> None:
         self.session = requests.session()
-        self.session.headers.update({'Authorization': f'Bearer {config['token']}'})
-        self.session.headers.update({'User-Agent': f'Lichess-Bot/{config['version']}'})
+        self.session.headers.update({'Authorization': f'Bearer {config["token"]}'})
+        self.session.headers.update({'User-Agent': f'Lichess-Bot/{config["version"]}'})
 
         account = self.get_account()
-        self.username: str = account['username']
-        self.user_title: str | None = account.get('title')
-        self.session.headers.update({'User-Agent': f'Lichess-Bot/{config['version']} user:{self.username}'})
+        self.username: str = account["username"]
+        self.user_title: str | None = account.get("title")
+        self.session.headers.update({'User-Agent': f'Lichess-Bot/{config["version"]} user:{self.username}'})
 
     @retry(retry=retry_if_exception_type((requests.ConnectionError, requests.Timeout)), after=after_log(logger, logging.DEBUG))
     def abort_game(self, game_id: str) -> bool:
@@ -69,10 +69,10 @@ class API:
 
         for line in filter(None, response.iter_lines()):
             data = json.loads(line)
-            challenge_id = data.get('challenge', {'id': None}).get('id')
-            was_accepted = data.get('done') == 'accepted'
-            error = data.get('error')
-            was_declined = data.get('done') == 'declined'
+            challenge_id = data.get("challenge', {'id': None}).get("id")
+            was_accepted = data.get("done") == 'accepted'
+            error = data.get("error")
+            was_declined = data.get("done") == 'declined'
             invalid_initial = 'clock.limit' in data
             invalid_increment = 'clock.increment' in data
             response_queue.put(API_Challenge_Reponse(challenge_id, was_accepted, error,
@@ -91,17 +91,17 @@ class API:
 
     @retry(retry=retry_if_exception_type((requests.ConnectionError, requests.Timeout)), after=after_log(logger, logging.DEBUG))
     def get_account(self) -> dict[str, Any]:
-        response = self.session.get('https://lichess.org/api/account', timeout=3.0)
+        response = self.session.get("https://lichess.org/api/account', timeout=3.0)
         json_response = response.json()
         if 'error' in json_response:
-            raise RuntimeError(f'Account error: {json_response['error']}')
+            raise RuntimeError(f'Account error: {json_response["error"]}")
 
         return json_response
 
     def get_chessdb_eval(self, fen: str, timeout: int) -> dict[str, Any] | None:
         try:
-            response = self.session.get('http://www.chessdb.cn/cdb.php',
-                                        params={'action': 'querypv', 'board': fen, 'json': 1},
+            response = self.session.get("http://www.chessdb.cn/cdb.php',
+                                        params={'action': 'querypv", "board': fen, 'json': 1},
                                         headers={'Authorization': None},
                                         timeout=timeout)
             response.raise_for_status()
@@ -111,7 +111,7 @@ class API:
 
     def get_cloud_eval(self, fen: str, variant: Variant, timeout: int) -> dict[str, Any] | None:
         try:
-            response = self.session.get('https://lichess.org/api/cloud-eval',
+            response = self.session.get("https://lichess.org/api/cloud-eval',
                                         params={'fen': fen, 'variant': variant.value}, timeout=timeout)
             return response.json()
         except (requests.Timeout, requests.ConnectionError) as e:
@@ -130,7 +130,7 @@ class API:
 
     @retry(after=after_log(logger, logging.DEBUG))
     def get_event_stream(self, queue: Queue) -> None:
-        response = self.session.get('https://lichess.org/api/stream/event', stream=True, timeout=9.0)
+        response = self.session.get("https://lichess.org/api/stream/event', stream=True, timeout=9.0)
         for line in filter(None, response.iter_lines()):
             queue.put(json.loads(line))
 
@@ -143,15 +143,15 @@ class API:
 
     @retry(after=after_log(logger, logging.DEBUG))
     def get_online_bots_stream(self) -> list[dict[str, Any]]:
-        response = self.session.get('https://lichess.org/api/bot/online', stream=True, timeout=9.0)
+        response = self.session.get("https://lichess.org/api/bot/online', stream=True, timeout=9.0)
         return [json.loads(line) for line in response.iter_lines() if line]
 
     def get_opening_explorer(self, username: str, fen: str, variant: Variant, color: str, timeout: int) -> dict[str, Any] | None:
         try:
-            response = self.session.get('https://explorer.lichess.ovh/player',
+            response = self.session.get("https://explorer.lichess.ovh/player',
                                         params={'player': username, 'variant': variant.value, 'fen': fen,
                                                 'color': color, 'speeds': 'bullet,blitz,rapid,classical',
-                                                'modes': 'rated', 'recentGames': 0},
+                                                'modes': 'rated", "recentGames': 0},
                                         headers={'Authorization': None},
                                         stream=True, timeout=timeout)
             response.raise_for_status()
@@ -162,12 +162,12 @@ class API:
 
     @retry(retry=retry_if_exception_type((requests.ConnectionError, requests.Timeout)), after=after_log(logger, logging.DEBUG))
     def get_token_scopes(self, token: str) -> str:
-        response = self.session.post('https://lichess.org/api/token/test', data=token, timeout=3.0)
-        return response.json()[token]['scopes']
+        response = self.session.post("https://lichess.org/api/token/test', data=token, timeout=3.0)
+        return response.json()[token]["scopes"]
 
     @retry(retry=retry_if_exception_type((requests.ConnectionError, requests.Timeout)), after=after_log(logger, logging.DEBUG))
     def get_user_status(self, username: str) -> dict[str, Any]:
-        response = self.session.get('https://lichess.org/api/users/status', params={'ids': username}, timeout=3.0)
+        response = self.session.get("https://lichess.org/api/users/status', params={'ids': username}, timeout=3.0)
         return response.json()[0]
 
     @retry(retry=retry_if_exception_type((requests.ConnectionError, requests.Timeout)), after=after_log(logger, logging.DEBUG))
@@ -204,7 +204,7 @@ class API:
     @retry(retry=retry_if_exception_type(requests.ConnectionError), after=after_log(logger, logging.DEBUG))
     def upgrade_account(self) -> bool:
         try:
-            response = self.session.post('https://lichess.org/api/bot/account/upgrade')
+            response = self.session.post("https://lichess.org/api/bot/account/upgrade")
             response.raise_for_status()
             return True
         except requests.HTTPError as e:

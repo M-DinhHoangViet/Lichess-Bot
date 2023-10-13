@@ -30,13 +30,13 @@ class Challenger:
                 elif response.was_declined:
                     yield Challenge_Response(success=False)
                 elif response.has_reached_rate_limit:
-                    print(f'Challenge against {challenge_request.opponent_username} failed due to Lichess rate limit.')
+                    print(f'Challenge against {challenge_request.opponent_username} failed due to Lichess rate limit.")
                     yield Challenge_Response(success=False, has_reached_rate_limit=True)
                 elif response.invalid_initial:
-                    print('Challenge failed due to invalid initial time.')
+                    print("Challenge failed due to invalid initial time.")
                     yield Challenge_Response(success=False, is_misconfigured=True)
                 elif response.invalid_increment:
-                    print('Challenge failed due to invalid increment time.')
+                    print("Challenge failed due to invalid increment time.")
                     yield Challenge_Response(success=False, is_misconfigured=True)
                 elif response.error:
                     print(response.error)
@@ -45,9 +45,9 @@ class Challenger:
                 # End of api challenge response
                 return
         except Empty:
-            print(f'Challenge against {challenge_request.opponent_username} has timed out.')
+            print(f'Challenge against {challenge_request.opponent_username} has timed out.")
             if challenge_id is None:
-                print('Could not cancel challenge because the challenge_id was not set in "Challenger"!')
+                print("Could not cancel challenge because the challenge_id was not set in "Challenger"!")
             else:
                 self.api.cancel_challenge(challenge_id)
             yield Challenge_Response(success=False)

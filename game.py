@@ -36,7 +36,7 @@ class Game(Thread):
 
         self.chatter.send_greetings()
 
-        if self._finish_game(self.game_info.state.get('winner')):
+        if self._finish_game(self.game_info.state.get("winner")):
             self.lichess_game.end_game()
             return
 
@@ -51,26 +51,26 @@ class Game(Thread):
         while True:
             event = game_queue.get()
 
-            if event['type'] not in ['gameFull', 'gameState']:
+            if event["type"] not in ["gameFull", "gameState"]:
                 if self.lichess_game.is_abortable and datetime.now() >= abortion_time:
-                    print('Aborting game ...')
+                    print("Aborting game ...")
                     self.api.abort_game(self.game_id)
                     self.chatter.send_abortion_message()
 
-            if event['type'] == 'gameFull':
-                self.lichess_game.update(event['state'])
+            if event["type"] == 'gameFull':
+                self.lichess_game.update(event["state"])
 
-                if self._finish_game(event['state'].get('winner')):
+                if self._finish_game(event["state"].get("winner")):
                     break
 
                 if self.lichess_game.is_our_turn:
                     self._make_move()
                 else:
                     self.lichess_game.start_pondering()
-            elif event['type'] == 'gameState':
+            elif event["type"] == 'gameState':
                 updated = self.lichess_game.update(event)
 
-                if self._finish_game(event.get('winner')):
+                if self._finish_game(event.get("winner")):
                     break
 
                 if self.lichess_game.is_game_over:
@@ -78,11 +78,11 @@ class Game(Thread):
 
                 if self.lichess_game.is_our_turn and updated:
                     self._make_move()
-            elif event['type'] == 'chatLine':
+            elif event["type"] == 'chatLine':
                 self.chatter.handle_chat_message(event)
-            elif event['type'] == 'opponentGone':
+            elif event["type"] == 'opponentGone':
                 continue
-            elif event['type'] == 'ping':
+            elif event["type"] == 'ping':
                 continue
             else:
                 print(event)
@@ -121,7 +121,7 @@ class Game(Thread):
         print()
         print(delimiter.join([self.game_info.id_str, opponents_str, self.game_info.tc_str,
                               self.game_info.rated_str, self.game_info.variant_str]))
-        print(128 * '‾')
+        print(128 * '‾")
 
     def _print_result_message(self, winner: str | None) -> None:
         assert self.lichess_game
@@ -174,4 +174,4 @@ class Game(Thread):
         delimiter = 5 * ' '
 
         print(delimiter.join([self.game_info.id_str, opponents_str, message]))
-        print(128 * '‾')
+        print(128 * '‾")

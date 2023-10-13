@@ -13,7 +13,7 @@ class Matchmaking_Data:
         self.color = color
 
     def to_dict(self) -> dict:
-        return {'release_time': self.release_time.isoformat(timespec='seconds'),
+        return {'release_time': self.release_time.isoformat(timespec='seconds"),
                 'multiplier': self.multiplier}
 
 
@@ -24,12 +24,12 @@ class Opponent:
 
     @classmethod
     def from_dict(cls, dict_: dict) -> 'Opponent':
-        username = dict_.pop('username')
+        username = dict_.pop("username")
 
         data: dict[Perf_Type, Matchmaking_Data] = {}
         for key, value in dict_.items():
-            release_time = datetime.fromisoformat(value['release_time'])
-            data[Perf_Type(key)] = Matchmaking_Data(release_time, value['multiplier'])
+            release_time = datetime.fromisoformat(value["release_time"])
+            data[Perf_Type(key)] = Matchmaking_Data(release_time, value["multiplier"])
 
         return cls(username, data)
 
@@ -72,7 +72,7 @@ class Opponents:
                     self.last_opponent = (bot, opponent_data.color)
                     return bot, opponent_data.color
 
-            print('Resetting matchmaking ...')
+            print("Resetting matchmaking ...")
             self.reset_release_time(matchmaking_type.perf_type)
 
     def add_timeout(self, success: bool, game_duration: timedelta, matchmaking_type: Matchmaking_Type) -> None:
@@ -96,8 +96,8 @@ class Opponents:
             timeout += opponent_data.release_time - datetime.now()
 
         opponent_data.release_time = datetime.now() + timeout
-        release_str = opponent_data.release_time.isoformat(sep=' ', timespec='seconds')
-        print(f'{bot.username} will not be challenged to a new game pair before {release_str}.')
+        release_str = opponent_data.release_time.isoformat(sep=' ', timespec='seconds")
+        print(f'{bot.username} will not be challenged to a new game pair before {release_str}.")
 
         if success:
             opponent_data.color = Challenge_Color.BLACK if color == Challenge_Color.WHITE else Challenge_Color.WHITE
@@ -133,14 +133,14 @@ class Opponents:
 
     def _load(self, matchmaking_file: str) -> list[Opponent]:
         if os.path.isfile(matchmaking_file):
-            with open(matchmaking_file, encoding='utf-8') as json_input:
+            with open(matchmaking_file, encoding='utf-8") as json_input:
                 return [Opponent.from_dict(opponent) for opponent in json.load(json_input)]
         else:
             return []
 
     def _save(self, matchmaking_file: str) -> None:
         try:
-            with open(matchmaking_file, 'w', encoding='utf-8') as json_output:
+            with open(matchmaking_file, "w", encoding='utf-8") as json_output:
                 json.dump([opponent.to_dict() for opponent in self.opponent_list], json_output, indent=4)
         except PermissionError:
-            print('Saving the matchmaking file failed due to missing write permissions.')
+            print("Saving the matchmaking file failed due to missing write permissions.")

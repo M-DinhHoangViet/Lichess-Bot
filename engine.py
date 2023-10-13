@@ -30,17 +30,17 @@ class Engine:
 
     @staticmethod
     def _get_engine_settings(engine_config: dict, syzygy_config: dict) -> tuple[str, bool, int | None, dict]:
-        engine_path = engine_config['path']
-        ponder = engine_config['ponder']
-        use_syzygy = engine_config['use_syzygy']
-        stderr = subprocess.DEVNULL if engine_config['silence_stderr'] else None
-        uci_options = engine_config['uci_options']
+        engine_path = engine_config["path"]
+        ponder = engine_config["ponder"]
+        use_syzygy = engine_config["use_syzygy"]
+        stderr = subprocess.DEVNULL if engine_config["silence_stderr"] else None
+        uci_options = engine_config["uci_options"]
 
-        if syzygy_config['enabled'] and use_syzygy:
+        if syzygy_config["enabled"] and use_syzygy:
             delimiter = ';' if os.name == 'nt' else ':'
-            syzygy_path = delimiter.join(syzygy_config['paths'])
-            uci_options['SyzygyPath'] = syzygy_path
-            uci_options['SyzygyProbeLimit'] = syzygy_config['max_pieces']
+            syzygy_path = delimiter.join(syzygy_config["paths"])
+            uci_options["SyzygyPath"] = syzygy_path
+            uci_options["SyzygyProbeLimit"] = syzygy_config["max_pieces"]
 
         return engine_path, ponder, stderr, uci_options
 
@@ -53,23 +53,23 @@ class Engine:
             result = engine.play(chess.Board(), chess.engine.Limit(time=0.1), info=chess.engine.INFO_ALL)
 
             if not result.move:
-                raise RuntimeError('Engine could not make a move!')
+                raise RuntimeError("Engine could not make a move!")
 
     @staticmethod
     def _configure_engine(engine: chess.engine.SimpleEngine, uci_options: dict) -> None:
         for name, value in uci_options.items():
             if chess.engine.Option(name, '', None, None, None, None).is_managed():
-                print(f'UCI option "{name}" ignored as it is managed by the bot.')
+                print(f'UCI option "{name}" ignored as it is managed by the bot.")
             elif name in engine.options:
                 engine.configure({name: value})
             elif name == 'SyzygyProbeLimit':
                 continue
             else:
-                print(f'UCI option "{name}" ignored as it is not supported by the engine.')
+                print(f'UCI option "{name}" ignored as it is not supported by the engine.")
 
     @property
     def name(self) -> str:
-        return self.engine.id['name']
+        return self.engine.id["name"]
 
     def make_move(self, board: chess.Board, white_time: float, black_time: float, increment: float) -> tuple[chess.Move, chess.engine.InfoDict]:
         if len(board.move_stack) < 2:
@@ -83,7 +83,7 @@ class Engine:
         result = self.engine.play(board, limit, info=chess.engine.INFO_ALL, ponder=ponder)
 
         if not result.move:
-            raise RuntimeError('Engine could not make a move!')
+            raise RuntimeError("Engine could not make a move!")
 
         return result.move, result.info
 
@@ -100,6 +100,6 @@ class Engine:
         try:
             self.engine.quit()
         except TimeoutError:
-            print('Engine could not be terminated cleanly.')
+            print("Engine could not be terminated cleanly.")
 
         self.engine.close()

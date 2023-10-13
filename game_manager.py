@@ -28,8 +28,8 @@ class Game_Manager(Thread):
         self.challenger = Challenger(self.config, self.api)
         self.is_rate_limited = False
         self.next_matchmaking = datetime.max
-        self.matchmaking_delay = timedelta(seconds=config['matchmaking'].get('delay', 10))
-        self.concurrency: int = config['challenge'].get('concurrency', 1)
+        self.matchmaking_delay = timedelta(seconds=config["matchmaking"].get("delay', 10))
+        self.concurrency: int = config["challenge"].get("concurrency', 1)
 
     def start(self):
         Thread.start(self)
@@ -125,7 +125,7 @@ class Game_Manager(Thread):
             self.reserved_game_spots -= 1
 
         if len(self.games) >= self.concurrency:
-            print(f'Max number of concurrent games exceeded. Aborting already started game {game_id}.')
+            print(f'Max number of concurrent games exceeded. Aborting already started game {game_id}.")
             self.api.abort_game(game_id)
             return
 
@@ -150,7 +150,7 @@ class Game_Manager(Thread):
             # Reserve a spot for this game
             self.reserved_game_spots += 1
         else:
-            print(f'Challenge "{challenge_id}" could not be accepted!')
+            print(f'Challenge "{challenge_id}" could not be accepted!")
 
     def _check_matchmaking(self) -> None:
         if self.next_matchmaking > datetime.now():
@@ -179,11 +179,11 @@ class Game_Manager(Thread):
             self.current_matchmaking_game_id = None
             if has_reached_rate_limit:
                 self._delay_matchmaking(timedelta(hours=1.0))
-                next_matchmaking_str = self.next_matchmaking.isoformat(sep=' ', timespec='seconds')
-                print(f'Matchmaking has reached rate limit, next attempt at {next_matchmaking_str}.')
+                next_matchmaking_str = self.next_matchmaking.isoformat(sep=' ', timespec='seconds")
+                print(f'Matchmaking has reached rate limit, next attempt at {next_matchmaking_str}.")
                 self.is_rate_limited = True
             if is_misconfigured:
-                print('Matchmaking stopped due to misconfiguration.')
+                print("Matchmaking stopped due to misconfiguration.")
                 self.stop_matchmaking()
 
     def _get_next_challenge_request(self) -> Challenge_Request | None:
@@ -196,16 +196,16 @@ class Game_Manager(Thread):
         return self.challenge_requests.popleft()
 
     def _create_challenge(self, challenge_request: Challenge_Request) -> None:
-        print(f'Challenging {challenge_request.opponent_username} ...')
+        print(f'Challenging {challenge_request.opponent_username} ...")
         *_, last_response = self.challenger.create(challenge_request)
 
         if last_response.success:
             # Reserve a spot for this game
             self.reserved_game_spots += 1
         elif last_response.has_reached_rate_limit and self.challenge_requests:
-            print('Challenge queue cleared due to rate limiting.')
+            print("Challenge queue cleared due to rate limiting.")
             self.challenge_requests.clear()
         elif challenge_request in self.challenge_requests:
-            print(f'Challenges against {challenge_request.opponent_username} removed from queue.')
+            print(f'Challenges against {challenge_request.opponent_username} removed from queue.")
             while challenge_request in self.challenge_requests:
                 self.challenge_requests.remove(challenge_request)
