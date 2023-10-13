@@ -24,7 +24,7 @@ jobs:
         pip install -r requirements.txt
         
    analyse-pyright:
-    needs: job1
+    needs: build
     name: ${{ matrix.os }} with python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -37,7 +37,7 @@ jobs:
         pyright
 
    analyse-pylint:
-    needs: job1
+    needs: build
     name: ${{ matrix.os }} with python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
