@@ -13,7 +13,7 @@ class Engine:
         self.ponder = ponder
 
     @classmethod
-    def from_config(cls, engine_config: dict, syzygy_config: dict, game_info: Game_Information | None = None) -> 'Engine':
+    def from_config(cls, engine_config: dict, syzygy_config: dict, game_info: Game_Information | None = None) -> "Engine":
         engine_path, ponder, stderr, uci_options = cls._get_engine_settings(engine_config, syzygy_config)
 
         engine = chess.engine.SimpleEngine.popen_uci(engine_path, stderr=stderr)
@@ -37,7 +37,7 @@ class Engine:
         uci_options = engine_config["uci_options"]
 
         if syzygy_config["enabled"] and use_syzygy:
-            delimiter = ';' if os.name == 'nt' else ':'
+            delimiter = ";" if os.name == "nt" else ":"
             syzygy_path = delimiter.join(syzygy_config["paths"])
             uci_options["SyzygyPath"] = syzygy_path
             uci_options["SyzygyProbeLimit"] = syzygy_config["max_pieces"]
@@ -58,14 +58,14 @@ class Engine:
     @staticmethod
     def _configure_engine(engine: chess.engine.SimpleEngine, uci_options: dict) -> None:
         for name, value in uci_options.items():
-            if chess.engine.Option(name, '', None, None, None, None).is_managed():
-                print(f'UCI option "{name}" ignored as it is managed by the bot.")
+            if chess.engine.Option(name, "", None, None, None, None).is_managed():
+                print(f"UCI option "{name}" ignored as it is managed by the bot.")
             elif name in engine.options:
                 engine.configure({name: value})
-            elif name == 'SyzygyProbeLimit':
+            elif name == "SyzygyProbeLimit":
                 continue
             else:
-                print(f'UCI option "{name}" ignored as it is not supported by the engine.")
+                print(f"UCI option "{name}" ignored as it is not supported by the engine.")
 
     @property
     def name(self) -> str:

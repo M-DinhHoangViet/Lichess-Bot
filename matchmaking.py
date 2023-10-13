@@ -17,9 +17,9 @@ class Matchmaking:
         self.next_update = datetime.now()
         self.timeout = max(config["matchmaking"]["timeout"], 1)
         self.types = self._get_types(config)
-        self.opponents = Opponents(config["matchmaking"].get("delay', 10), self.api.username)
+        self.opponents = Opponents(config["matchmaking"].get("delay", 10), self.api.username)
         self.challenger = Challenger(config, self.api)
-        self.blacklist: list[str] = config.get("blacklist', [])
+        self.blacklist: list[str] = config.get("blacklist", [])
 
         self.game_start_time: datetime = datetime.now()
         self.online_bots: dict[Perf_Type, list[Bot]] = {}
@@ -33,24 +33,24 @@ class Matchmaking:
         if not self.current_type:
             self.current_type, = random.choices(self.types, [type.weight for type in self.types])
             if len(self.types) > 1:
-                print(f'Picked matchmaking type {self.current_type.to_str}")
+                print(f"Picked matchmaking type {self.current_type.to_str}")
 
         opponent, color = self.opponents.get_next_opponent(self.online_bots, self.current_type)
 
         if busy_reason := self._get_busy_reason(opponent):
             if busy_reason == Busy_Reason.PLAYING:
-                print(f'Skipping {opponent.username} ({opponent.rating_diff:+}) '
-                      f'as {color.value} because it is playing ...")
+                print(f"Skipping {opponent.username} ({opponent.rating_diff:+}) "
+                      f"as {color.value} because it is playing ...")
                 self.opponents.skip_bot()
             elif busy_reason == Busy_Reason.OFFLINE:
-                print(f'Removing {opponent.username} from online bots because it is offline ...")
+                print(f"Removing {opponent.username} from online bots because it is offline ...")
                 self._remove_offline_bot(opponent.username)
 
             pending_challenge.return_early()
             return
 
-        print(f'Challenging {opponent.username} ({opponent.rating_diff:+}) '
-              f'as {color.value} to {self.current_type.name} ...")
+        print(f"Challenging {opponent.username} ({opponent.rating_diff:+}) "
+              f"as {color.value} to {self.current_type.name} ...")
         challenge_request = Challenge_Request(opponent.username, self.current_type.initial_time,
                                               self.current_type.increment, self.current_type.rated, color,
                                               self.current_type.variant, self.timeout)
@@ -88,13 +88,13 @@ class Matchmaking:
             initial_time, increment = options["tc"].split("+")
             initial_time = int(float(initial_time) * 60) if initial_time else 0
             increment = int(increment) if increment else 0
-            rated = options.get("rated', True)
+            rated = options.get("rated", True)
             variant = Variant(options.get("variant", "standard"))
             perf_type = self._variant_to_perf_type(variant, initial_time, increment)
-            multiplier = options.get("multiplier', 15)
-            weight = options.get("weight', 100)
-            min_rating_diff = options.get("min_rating_diff', 0)
-            max_rating_diff = options.get("max_rating_diff', 10_000)
+            multiplier = options.get("multiplier", 15)
+            weight = options.get("weight", 100)
+            min_rating_diff = options.get("min_rating_diff", 0)
+            max_rating_diff = options.get("max_rating_diff", 10_000)
 
             types.append(Matchmaking_Type(name, initial_time, increment, rated, variant,
                          perf_type, multiplier, weight, min_rating_diff, max_rating_diff))
@@ -120,7 +120,7 @@ class Matchmaking:
 
             bot_counts["online"] += 1
 
-            if 'disabled' in bot:
+            if "disabled" in bot:
                 bot_counts["disabled"] += 1
                 continue
 
@@ -129,7 +129,7 @@ class Matchmaking:
                 continue
 
             tos_violation = False
-            if 'tosViolation' in bot:
+            if "tosViolation" in bot:
                 tos_violation = True
                 bot_counts["with tosViolation"] += 1
 
@@ -140,11 +140,11 @@ class Matchmaking:
 
         for category, count in bot_counts.items():
             if count:
-                print(f'{count:3} bots {category}")
+                print(f"{count:3} bots {category}")
 
         for perf_type, bots in online_bots.items():
             if not bots:
-                raise RuntimeError(f'No bots for {perf_type} in configured rating range online!")
+                raise RuntimeError(f"No bots for {perf_type} in configured rating range online!")
 
         self.next_update = datetime.now() + timedelta(minutes=30.0)
         return online_bots
@@ -188,8 +188,8 @@ class Matchmaking:
 
     def _get_busy_reason(self, bot: Bot) -> Busy_Reason | None:
         bot_status = self.api.get_user_status(bot.username)
-        if 'online' not in bot_status:
+        if "online" not in bot_status:
             return Busy_Reason.OFFLINE
 
-        if 'playing' in bot_status:
+        if "playing" in bot_status:
             return Busy_Reason.PLAYING

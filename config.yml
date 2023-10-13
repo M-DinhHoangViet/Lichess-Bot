@@ -4,7 +4,7 @@ engines:
   standard:                               # Engine used for standard chess and when no suitable special engine is configured.
     dir: "."                              # Directory containing the engine.
     name: "engine_name"                 # Binary name of the engine to use.
-    ponder: true                          # Think on opponent's time.
+    ponder: true                          # Think on opponent"s time.
     use_syzygy: true                      # Whether the engine should be configured to use syzygy.
     silence_stderr: false                 # Suppresses stderr output.
     uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
@@ -14,16 +14,16 @@ engines:
 # variants:                               # Engine used for variants when no suitable special engine is configured.
 #   dir: "."                      # Directory containing the engine.
 #   name: "engine_name"               # Binary name of the engine to use.
-#   ponder: true                          # Think on opponent's time.
+#   ponder: true                          # Think on opponent"s time.
 #   use_syzygy: false                     # Whether the engine should be configured to use syzygy.
 #   silence_stderr: false                 # Suppresses stderr output.
 #   uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
 #     Threads: 4                          # Max CPU threads the engine can use.
 #     Hash: 256                           # Max memory (in megabytes) the engine can allocate.
 #     Move Overhead: 100                  # Increase if your bot flags games too often.
-# Use the same pattern for 'bullet", "blitz", "rapid", "classical',
-# 'antichess", "atomic", "chess960", "crazyhouse", "horde", "kingofthehill", "racingkings' and '3check' as well.
-# Append '_white' or '_black' to use the engine only as the specific color.
+# Use the same pattern for "bullet", "blitz", "rapid", "classical",
+# "antichess", "atomic", "chess960", "crazyhouse", "horde", "kingofthehill", "racingkings" and "3check" as well.
+# Append "_white" or "_black" to use the engine only as the specific color.
 
 syzygy:
   enabled: false                          # Activate local syzygy endgame tablebases.
@@ -56,9 +56,9 @@ opening_books:
 #     max_depth: 16                       # Half move max depth. (Comment this line for max depth)
       names:                              # List of names of books to use if there is no specific book for the time control, white, black or chess960.
         - DefaultBook
-#   Use the same pattern for 'bullet", "blitz", "rapid", "classical',
-#   'antichess", "atomic", "chess960", "crazyhouse", "horde", "kingofthehill", "racingkings' and '3check' as well.
-#   Append '_white' or '_black' to use the books only as the specific color.
+#   Use the same pattern for "bullet", "blitz", "rapid", "classical",
+#   "antichess", "atomic", "chess960", "crazyhouse", "horde", "kingofthehill", "racingkings" and "3check" as well.
+#   Append "_white" or "_black" to use the books only as the specific color.
 
 online_moves:
   opening_explorer:
@@ -159,15 +159,15 @@ matchmaking:
 
 messages:
   # Optional substitution keywords (include curly braces):
-  #   {opponent} to insert the opponent's name
+  #   {opponent} to insert the opponent"s name
   #   {me} to insert our name
   #   {engine} to insert engine name
   #   {cpu} to insert CPU information
   #   {ram} to insert RAM size
   # Any other words in curly braces will be removed.
-  greeting: "Hey, I'm {me}, I'm running {engine} on {cpu} and {ram} of RAM. Good luck {oppnent}!" # Message sent to the opponent at the beginning of a game.
+  greeting: "Hey, I"m {me}, I"m running {engine} on {cpu} and {ram} of RAM. Good luck {oppnent}!" # Message sent to the opponent at the beginning of a game.
   goodbye: "Good game {opponent}, see you next time."                                             # Message sent to the opponent after the end of a game.
-  greeting_spectators: "Hey, I'm running {engine} on {cpu} and {ram} of RAM. Type !help for a list of commands." # Message sent to the spectators at the beginning of a game.
+  greeting_spectators: "Hey, I"m running {engine} on {cpu} and {ram} of RAM. Type !help for a list of commands." # Message sent to the spectators at the beginning of a game.
   goodbye_spectators: "Thanks for watching!"                                                      # Message sent to the spectators after the end of a game.
 
 # whitelist:                              # List of users whose challenges are always accepted.

@@ -55,7 +55,7 @@ class Chat_Message:
     room: str
 
     @classmethod
-    def from_chatLine_event(cls, chatLine_event: dict) -> 'Chat_Message':
+    def from_chatLine_event(cls, chatLine_event: dict) -> "Chat_Message":
         username = chatLine_event["username"]
         text = chatLine_event["text"]
         room = chatLine_event["room"]
@@ -95,20 +95,20 @@ class Game_Information:
     state: dict
 
     @classmethod
-    def from_gameFull_event(cls, gameFull_event: dict, username: str) -> 'Game_Information':
-        assert gameFull_event["type"] == 'gameFull'
+    def from_gameFull_event(cls, gameFull_event: dict, username: str) -> "Game_Information":
+        assert gameFull_event["type"] == "gameFull"
 
         id_ = gameFull_event["id"]
         white_title = gameFull_event["white"].get("title")
         white_name = gameFull_event["white"].get("name", "AI")
         white_rating = gameFull_event["white"].get("rating")
         white_ai_level = gameFull_event["white"].get("aiLevel")
-        white_provisional = gameFull_event["white"].get("provisional', False)
+        white_provisional = gameFull_event["white"].get("provisional", False)
         black_title = gameFull_event["black"].get("title")
         black_name = gameFull_event["black"].get("name", "AI")
         black_rating = gameFull_event["black"].get("rating")
         black_ai_level = gameFull_event["black"].get("aiLevel")
-        black_provisional = gameFull_event["black"].get("provisional', False)
+        black_provisional = gameFull_event["black"].get("provisional", False)
         initial_time_ms = gameFull_event["clock"]["initial"]
         increment_ms = gameFull_event["clock"]["increment"]
         speed = gameFull_event["speed"]
@@ -125,29 +125,29 @@ class Game_Information:
 
     @property
     def id_str(self) -> str:
-        return f'ID: {self.id_}'
+        return f"ID: {self.id_}"
 
     @property
     def white_name_str(self) -> str:
-        title_str = f'{self.white_title} ' if self.white_title else ''
-        return f'{title_str}{self.white_name}'
+        title_str = f"{self.white_title} " if self.white_title else ""
+        return f"{title_str}{self.white_name}"
 
     @property
     def white_str(self) -> str:
-        provisional_str = '?' if self.white_provisional else ''
-        rating_str = f'{self.white_rating}{provisional_str}' if self.white_rating else f'Level {self.white_ai_level}'
-        return f'{self.white_name_str} ({rating_str})'
+        provisional_str = "?" if self.white_provisional else ""
+        rating_str = f"{self.white_rating}{provisional_str}" if self.white_rating else f"Level {self.white_ai_level}"
+        return f"{self.white_name_str} ({rating_str})"
 
     @property
     def black_name_str(self) -> str:
-        title_str = f'{self.black_title} ' if self.black_title else ''
-        return f'{title_str}{self.black_name}'
+        title_str = f"{self.black_title} " if self.black_title else ""
+        return f"{title_str}{self.black_name}"
 
     @property
     def black_str(self) -> str:
-        provisional_str = '?' if self.black_provisional else ''
-        rating_str = f'{self.black_rating}{provisional_str}' if self.black_rating else f'Level {self.black_ai_level}'
-        return f'{self.black_name_str} ({rating_str})'
+        provisional_str = "?" if self.black_provisional else ""
+        rating_str = f"{self.black_rating}{provisional_str}" if self.black_rating else f"Level {self.black_ai_level}"
+        return f"{self.black_name_str} ({rating_str})"
 
     @property
     def tc_str(self) -> str:
@@ -155,27 +155,27 @@ class Game_Information:
         if initial_time_min.is_integer():
             initial_time_str = str(int(initial_time_min))
         elif initial_time_min == 0.25:
-            initial_time_str = '¼'
+            initial_time_str = "¼"
         elif initial_time_min == 0.5:
-            initial_time_str = '½'
+            initial_time_str = "½"
         elif initial_time_min == 0.75:
-            initial_time_str = '¾'
+            initial_time_str = "¾"
         else:
             initial_time_str = str(initial_time_min)
         increment_sec = self.increment_ms // 1000
-        return f'TC: {initial_time_str}+{increment_sec}'
+        return f"TC: {initial_time_str}+{increment_sec}"
 
     @property
     def rated_str(self) -> str:
-        return 'Rated' if self.rated else 'Casual'
+        return "rated" if self.rated else "Casual"
 
     @property
     def variant_str(self) -> str:
-        return f'Variant: {self.variant_name}'
+        return f"Variant: {self.variant_name}"
 
     @property
     def opponent_is_bot(self) -> bool:
-        return self.black_title == 'BOT' if self.is_white else self.white_title == 'BOT'
+        return self.black_title == "BOT" if self.is_white else self.white_title == "BOT"
 
     @property
     def opponent_username(self) -> str:
@@ -192,7 +192,7 @@ class Game_Information:
 
 @dataclass
 class Book_Settings:
-    selection: str = ''
+    selection: str = ""
     max_depth: int = 600
     readers: dict[str, MemoryMappedReader] = field(default_factory=dict)
 
@@ -216,22 +216,22 @@ class Matchmaking_Type:
 
     @property
     def to_str(self) -> str:
-        name_str = f'{self.name}:'
+        name_str = f"{self.name}:"
         initial_time_min = self.initial_time / 60
         if initial_time_min.is_integer():
             initial_time_str = str(int(initial_time_min))
         elif initial_time_min == 0.25:
-            initial_time_str = '¼'
+            initial_time_str = "¼"
         elif initial_time_min == 0.5:
-            initial_time_str = '½'
+            initial_time_str = "½"
         elif initial_time_min == 0.75:
-            initial_time_str = '¾'
+            initial_time_str = "¾"
         else:
             initial_time_str = str(initial_time_min)
-        tc_str = f'TC: {initial_time_str}+{self.increment}'
-        rated_str = 'Rated' if self.rated else 'Casual'
-        variant_str = f'Variant: {self.variant.value}'
-        delimiter = 5 * ' '
+        tc_str = f"TC: {initial_time_str}+{self.increment}"
+        rated_str = "rated" if self.rated else "Casual"
+        variant_str = f"Variant: {self.variant.value}"
+        delimiter = 5 * " "
 
         return delimiter.join([name_str, tc_str, rated_str, variant_str])
 
@@ -240,7 +240,7 @@ class Matchmaking_Type:
 class Move_Response:
     move: chess.Move
     public_message: str
-    private_message: str = field(default='', kw_only=True)
+    private_message: str = field(default="", kw_only=True)
     pv: list[chess.Move] = field(default_factory=list, kw_only=True)
     is_drawish: bool = field(default=False, kw_only=True)
     is_resignable: bool = field(default=False, kw_only=True)

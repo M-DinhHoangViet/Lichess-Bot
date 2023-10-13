@@ -21,20 +21,20 @@ except ImportError:
     readline_available = False
 
 COMMANDS = {
-    'whitelist': 'Temporarily whitelists a user. Use config for permanent whitelisting. Usage: whitelist USERNAME',
-    'blacklist': 'Temporarily blacklists a user. Use config for permanent blacklisting. Usage: blacklist USERNAME',
-    'challenge': 'Challenges a player. Usage: challenge USERNAME [INITIAL_TIME] [INCREMENT] [COLOR] [RATED] [VARIANT]',
-    'rechallenge': 'Challenges the opponent to the last received challenge.',
-    'create': 'Challenges a player to COUNT game pairs. Usage: create COUNT USERNAME [INITIAL_TIME] [INCREMENT] [RATED] [VARIANT]',
-    'help': 'Prints this message.',
-    'matchmaking': 'Starts matchmaking mode.',
-    'quit': 'Exits the bot.',
-    'clear': 'Clears the challenge queue.',
-    'reset': 'Resets matchmaking. Usage: reset PERF_TYPE',
-    'stop': 'Stops matchmaking mode.'
+    "whitelist": "Temporarily whitelists a user. Use config for permanent whitelisting. Usage: whitelist USERNAME",
+    "blacklist": "Temporarily blacklists a user. Use config for permanent blacklisting. Usage: blacklist USERNAME",
+    "challenge": "Challenges a player. Usage: challenge USERNAME [INITIAL_TIME] [INCREMENT] [COLOR] [RATED] [VARIANT]",
+    "rechallenge": "Challenges the opponent to the last received challenge.",
+    "create": "Challenges a player to COUNT game pairs. Usage: create COUNT USERNAME [INITIAL_TIME] [INCREMENT] [RATED] [VARIANT]",
+    "help": "Prints this message.",
+    "matchmaking": "Starts matchmaking mode.",
+    "quit": "Exits the bot.",
+    "clear": "Clears the challenge queue.",
+    "reset": "Resets matchmaking. Usage: reset PERF_TYPE",
+    "stop": "Stops matchmaking mode."
 }
 
-EnumT = TypeVar("EnumT', bound=Enum)
+EnumT = TypeVar("EnumT", bound=Enum)
 
 
 class UserInterface:
@@ -48,8 +48,8 @@ class UserInterface:
         self.event_handler = Event_Handler(self.config, self.api, self.game_manager)
 
     def main(self) -> None:
-        print(LOGO, end=' ")
-        print(self.config["version"], end='\n\n")
+        print(LOGO, end=" ")
+        print(self.config["version"], end="\n\n")
 
         self._handle_bot_status()
         self._test_engines()
@@ -77,48 +77,48 @@ class UserInterface:
             if len(command) == 0:
                 continue
 
-            if command[0] == 'blacklist':
+            if command[0] == "blacklist":
                 self._blacklist(command)
-            elif command[0] == 'challenge':
+            elif command[0] == "challenge":
                 self._challenge(command)
-            elif command[0] == 'create':
+            elif command[0] == "create":
                 self._create(command)
-            elif command[0] == 'clear':
+            elif command[0] == "clear":
                 self._clear()
-            elif command[0] == 'exit':
+            elif command[0] == "exit":
                 self._quit()
-            elif command[0] == 'matchmaking':
+            elif command[0] == "matchmaking":
                 self._matchmaking()
-            elif command[0] == 'quit':
+            elif command[0] == "quit":
                 self._quit()
-            elif command[0] == 'rechallenge':
+            elif command[0] == "rechallenge":
                 self._rechallenge()
-            elif command[0] == 'reset':
+            elif command[0] == "reset":
                 self._reset(command)
-            elif command[0] == 'stop':
+            elif command[0] == "stop":
                 self._stop()
             else:
                 self._help()
 
     def _handle_bot_status(self) -> None:
-        if 'bot:play' not in self.api.get_token_scopes(self.config["token"]):
-            print("Your token is missing the bot:play scope. This is mandatory to use Liches-Bot\n'
-                  'You can create such a token by following this link:\n'
-                  'https://lichess.org/account/oauth/token/create?scopes%5B%5D=bot:play&description=Lichess-Bot")
+        if "bot:play" not in self.api.get_token_scopes(self.config["token"]):
+            print("Your token is missing the bot:play scope. This is mandatory to use Liches-Bot\n"
+                  "You can create such a token by following this link:\n"
+                  "https://lichess.org/account/oauth/token/create?scopes%5B%5D=bot:play&description=Lichess-Bot")
             sys.exit(1)
 
-        if self.api.user_title == 'BOT':
+        if self.api.user_title == "BOT":
             return
 
         print("\n Liches-Bot can only be used by BOT accounts!\n")
 
         if not sys.stdin.isatty() and not self.allow_upgrade:
-            print("Start Lichess-Bot with the "--upgrade" flag if you are sure you want to upgrade this account.\n'
-                  'WARNING: This is irreversible! The account will only be able to play as a BOT!")
+            print("Start Lichess-Bot with the "--upgrade" flag if you are sure you want to upgrade this account.\n"
+                  "WARNING: This is irreversible! The account will only be able to play as a BOT!")
             sys.exit(1)
         elif sys.stdin.isatty():
-            print("This will upgrade your account to a BOT account.\n'
-                  'WARNING: This is irreversible. The account will only be able to play as a BOT.")
+            print("This will upgrade your account to a BOT account.\n"
+                  "WARNING: This is irreversible. The account will only be able to play as a BOT.")
             approval = input("Do you want to continue ? [y/N]: ")
 
             if approval.lower() not in ["y", "yes"]:
@@ -138,11 +138,11 @@ class UserInterface:
 
         username = command[1].lower()
         self.event_handler.challenge_validator.whitelist.append(username)
-        print(f'Added {command[1]} to the whitelist.")
+        print(f"Added {command[1]} to the whitelist.")
 
     def _test_engines(self) -> None:
         for engine_name, engine_section in self.config["engines"].items():
-            print(f'Testing engine "{engine_name}" ... ', end='")
+            print(f"Testing engine "{engine_name}" ... ", end="")
             Engine.test(engine_section, self.config["syzygy"])
             print("OK")
 
@@ -154,7 +154,7 @@ class UserInterface:
         username = command[1].lower()
         self.event_handler.challenge_validator.blacklist.append(username)
         self.game_manager.matchmaking.blacklist.append(username)
-        print(f'Added {command[1]} to the blacklist.")
+        print(f"Added {command[1]} to the blacklist.")
 
     def _challenge(self, command: list[str]) -> None:
         command_length = len(command)
@@ -164,7 +164,7 @@ class UserInterface:
 
         try:
             opponent_username = command[1]
-            time_control = command[2] if command_length > 2 else '1+1'
+            time_control = command[2] if command_length > 2 else "1+1"
             initial_time_str, increment_str = time_control.split("+")
             initial_time = int(float(initial_time_str) * 60)
             increment = int(increment_str)
@@ -177,7 +177,7 @@ class UserInterface:
 
         challenge_request = Challenge_Request(opponent_username, initial_time, increment, rated, color, variant, 30)
         self.game_manager.request_challenge(challenge_request)
-        print(f'Challenge against {challenge_request.opponent_username} added to the queue.")
+        print(f"Challenge against {challenge_request.opponent_username} added to the queue.")
 
     def _rechallenge(self) -> None:
         last_challenge_event = self.event_handler.last_challenge_event
@@ -192,16 +192,16 @@ class UserInterface:
         event_color: str = last_challenge_event["challenge"]["color"]
         variant = Variant(last_challenge_event["challenge"]["variant"]["key"])
 
-        if event_color == 'white':
+        if event_color == "white":
             color = Challenge_Color.BLACK
-        elif event_color == 'black':
+        elif event_color == "black":
             color = Challenge_Color.WHITE
         else:
             color = Challenge_Color.RANDOM
 
         challenge_request = Challenge_Request(opponent_username, initial_time, increment, rated, color, variant, 30)
         self.game_manager.request_challenge(challenge_request)
-        print(f'Challenge against {challenge_request.opponent_username} added to the queue.")
+        print(f"Challenge against {challenge_request.opponent_username} added to the queue.")
 
     def _create(self, command: list[str]) -> None:
         command_length = len(command)
@@ -212,7 +212,7 @@ class UserInterface:
         try:
             count = int(command[1])
             opponent_username = command[2]
-            time_control = command[3] if command_length > 3 else '1+1'
+            time_control = command[3] if command_length > 3 else "1+1"
             initial_time_str, increment_str = time_control.split("+")
             initial_time = int(float(initial_time_str) * 60)
             increment = int(increment_str)
@@ -230,7 +230,7 @@ class UserInterface:
                               increment, rated, Challenge_Color.BLACK, variant, 30))
 
         self.game_manager.request_challenge(*challenges)
-        print(f'Challenges for {count} game pairs against {opponent_username} added to the queue.")
+        print(f"Challenges for {count} game pairs against {opponent_username} added to the queue.")
 
     def _matchmaking(self) -> None:
         print("Starting matchmaking ...")
@@ -271,14 +271,14 @@ class UserInterface:
     def _help(self) -> None:
         print("These commands are supported by BotLi:\n")
         for key, value in COMMANDS.items():
-            print(f'{key:11}\t\t# {value}")
+            print(f"{key:11}\t\t# {value}")
 
     def _find_enum(self, name: str, enum_type: type[EnumT]) -> EnumT:
         for enum in enum_type:
             if enum.value.lower() == name.lower():
                 return enum
 
-        raise ValueError(f'{name} is not a valid {enum_type}")
+        raise ValueError(f"{name} is not a valid {enum_type}")
 
 
 class Autocompleter:
@@ -299,13 +299,13 @@ class Autocompleter:
             return None
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", "-c', default='config.yml', type=str, help='Path to config.yml.")
-    parser.add_argument("--matchmaking", "-m', action='store_true', help='Start matchmaking mode.")
-    parser.add_argument("--upgrade", "-u', action='store_true', help='Upgrade account to BOT account.")
-    parser.add_argument("--debug", "-d', action='store_const', const=logging.DEBUG,
-                        default=logging.WARNING, help='Enable debug logging.")
+    parser.add_argument("--config", "-c", default="config.yml", type=str, help="Path to config.yml.")
+    parser.add_argument("--matchmaking", "-m", action="store_true", help="Start matchmaking mode.")
+    parser.add_argument("--upgrade", "-u", action="store_true", help="Upgrade account to BOT account.")
+    parser.add_argument("--debug", "-d", action="store_const", const=logging.DEBUG,
+                        default=logging.WARNING, help="Enable debug logging.")
     args = parser.parse_args()
 
     logging.basicConfig(level=args.debug)
