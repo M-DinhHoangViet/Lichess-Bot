@@ -1,8 +1,8 @@
-FROM ubuntu:jammy
+FROM python:3.12
 COPY . .
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y wget unzip python3 python3-pip git
-RUN python3 -m pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && apt-get upgrade -y
+RUN pip --no-cache-dir install -U pip && pip --no-cache-dir install -r requirements.txt
 
 # Stockfish - Depending on your CPU it may be necessary to pick a binary other than bmi2
 RUN wget https://abrok.eu/stockfish/latest/linux/stockfish_x64_bmi2.zip -O stockfish.zip
@@ -23,4 +23,4 @@ RUN wget "https://drive.google.com/u/0/uc?id=1Tiq8FqSu7eiekE2iaWQzSdJPg-mhvLzJ&e
 RUN wget "https://tests.stockfishchess.org/api/nn/nn-4ffa203f3b58.nnue" -O ./nn-4ffa203f3b58.nnue
 
 # Add the "--matchmaking" flag to start the matchmaking mode.
-CMD python3 user_interface.py
+CMD python user_interface.py
