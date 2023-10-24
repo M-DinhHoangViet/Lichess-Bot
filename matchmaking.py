@@ -49,7 +49,7 @@ class Matchmaking:
             pending_challenge.return_early()
             return
 
-        if next_opponent
+        if next_opponent:
             opponent, color = next_opponent
         else:
             print(f'No opponent available for matchmaking type {self.current_type.name}.')

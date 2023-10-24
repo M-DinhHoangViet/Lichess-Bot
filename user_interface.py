@@ -25,7 +25,6 @@ COMMANDS = {
     'blacklist': 'Temporarily blacklists a user. Use config for permanent blacklisting. Usage: blacklist USERNAME',
     'challenge': 'Challenges a player. Usage: challenge USERNAME [INITIAL_TIME] [INCREMENT] [COLOR] [RATED] [VARIANT]',
     'rechallenge': 'Challenges the opponent to the last received challenge.',
-    'create': 'Challenges a player to COUNT game pairs. Usage: create COUNT USERNAME [INITIAL_TIME] [INCREMENT] [RATED] [VARIANT]',
     'help': 'Prints this message.',
     'matchmaking': 'Starts matchmaking mode.',
     'quit': 'Exits the bot.',

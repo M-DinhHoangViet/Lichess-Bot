@@ -58,7 +58,10 @@ class Opponents:
         self.busy_bots: list[Bot] = []
         self.last_opponent: tuple[Bot, Challenge_Color] | None = None
 
-    def get_opponent(self, online_bots: dict[Perf_Type, list[Bot]], matchmaking_type: Matchmaking_Type) -> tuple[Bot, Challenge_Color] | None:
+    def get_opponent(self,
+                     online_bots: dict[Perf_Type, list[Bot]],
+                     matchmaking_type: Matchmaking_Type
+                     ) -> tuple[Bot, Challenge_Color] | None:
         def bot_filter(bot: Bot) -> bool:
 
             if matchmaking_type.rated and bot.tos_violation:
