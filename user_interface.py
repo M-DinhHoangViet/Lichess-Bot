@@ -1,5 +1,6 @@
 import argparse
 import logging
+import readline
 import sys
 from enum import Enum
 from typing import TypeVar
