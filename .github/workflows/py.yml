@@ -3,12 +3,36 @@ name: Pylint & Pyright
 on: [push, pull_request]
 
 jobs:
-   build:
-    name: ${{ matrix.os }} with python ${{ matrix.python-version }}
+   versioning:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyYAML
+      - name: Update version
+        id: new-version
+        run: python .github/workflows/update_version.py
+      - name: Auto update version
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "actions-user"
+          git add -A .
+          git commit -m "Auto update version"
+          git push origin HEAD:main
+        
+   analyse-pyright:
+    needs: versioning
+    name: pyright on ${{ matrix.os }} with python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
         python-version: ["3.10", "3.11"]
     steps:
     - uses: actions/checkout@v4
@@ -20,31 +44,30 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pyright
-        pip install pylint
         pip install -r requirements.txt
-        
-   analyse-pyright:
-    needs: build
-    name: ${{ matrix.os }} with python ${{ matrix.python-version }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.10", "3.11"]
-    steps:
     - name: Analysing the code with pyright
       run: |
         pyright
 
    analyse-pylint:
-    needs: build
-    name: ${{ matrix.os }} with python ${{ matrix.python-version }}
+    needs: versioning
+    name: pylint on ${{ matrix.os }} with python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
         python-version: ["3.10", "3.11"]
     steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+        pip install -r requirements.txt
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py')

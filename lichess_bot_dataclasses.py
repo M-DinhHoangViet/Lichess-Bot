@@ -22,7 +22,7 @@ class API_Challenge_Reponse:
 class Bot:
     username: str
     tos_violation: bool
-    rating_diff: int
+    rating_diffs: dict[Perf_Type, int]
 
     def __eq__(self, __o: object) -> bool:
         if isinstance(__o, Bot):
@@ -216,7 +216,6 @@ class Matchmaking_Type:
 
     @property
     def to_str(self) -> str:
-        name_str = f"{self.name}:"
         initial_time_min = self.initial_time / 60
         if initial_time_min.is_integer():
             initial_time_str = str(int(initial_time_min))
@@ -233,7 +232,7 @@ class Matchmaking_Type:
         variant_str = f"Variant: {self.variant.value}"
         delimiter = 5 * " "
 
-        return delimiter.join([name_str, tc_str, rated_str, variant_str])
+        return delimiter.join([self.name, tc_str, rated_str, variant_str])
 
 
 @dataclass

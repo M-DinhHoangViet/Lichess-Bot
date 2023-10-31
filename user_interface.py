@@ -1,6 +1,5 @@
 import argparse
 import logging
-import signal
 import sys
 from enum import Enum
 from typing import TypeVar
@@ -25,7 +24,6 @@ COMMANDS = {
     'blacklist': 'Temporarily blacklists a user. Use config for permanent blacklisting. Usage: blacklist USERNAME',
     'challenge': 'Challenges a player. Usage: challenge USERNAME [INITIAL_TIME] [INCREMENT] [COLOR] [RATED] [VARIANT]',
     'rechallenge': 'Challenges the opponent to the last received challenge.',
-    'create': 'Challenges a player to COUNT game pairs. Usage: create COUNT USERNAME [INITIAL_TIME] [INCREMENT] [RATED] [VARIANT]',
     'help': 'Prints this message.',
     'matchmaking': 'Starts matchmaking mode.',
     'quit': 'Exits the bot.',
@@ -62,7 +60,6 @@ class UserInterface:
             self._matchmaking()
 
         if not sys.stdin.isatty():
-            signal.signal(signal.SIGINT, self._quit)
             self.event_handler.join()
             self.game_manager.join()
             return
@@ -236,7 +233,7 @@ class UserInterface:
         print('Starting matchmaking ...')
         self.game_manager.start_matchmaking()
 
-    def _quit(self, *_) -> None:
+    def _quit(self) -> None:
         self.is_running = False
         self.game_manager.stop()
         print('Terminating program ...')
