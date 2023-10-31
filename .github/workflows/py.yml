@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
    analyse-pyright:
-    needs: versioning
     name: pyright on ${{ matrix.os }} with python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -27,7 +26,6 @@ jobs:
         pyright
 
    analyse-pylint:
-    needs: versioning
     name: pylint on ${{ matrix.os }} with python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
