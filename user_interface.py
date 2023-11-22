@@ -105,7 +105,7 @@ class UserInterface:
         self.api.set_user_agent(self.config['version'], self.config['username'])
         self._handle_bot_status(account)
 
-    def _handle_bot_status(self) -> None:
+    def _handle_bot_status(self, account: dict) -> None:
         if 'bot:play' not in self.api.get_token_scopes(self.config['token']):
             print('Your token is missing the bot:play scope. This is mandatory to use Liches-Bot\n'
                   'You can create such a token by following this link:\n'
