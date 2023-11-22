@@ -231,7 +231,7 @@ class API:
             print(e)
             return False
 
-def _get_urls(self, config: dict[str, Any]) -> dict[str, str]:
+    def _get_urls(self, config: dict[str, Any]) -> dict[str, str]:
         url = config.get('url', 'https://lichess.org')
         return {
             'abort_game': urljoin(url, '/api/bot/game/{0}/abort'),
