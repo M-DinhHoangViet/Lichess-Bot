@@ -11,6 +11,7 @@ class Event_Handler(Thread):
     def __init__(self, config: dict, api: API, game_manager: Game_Manager) -> None:
         Thread.__init__(self)
         self.api = api
+        self.username: str = config['username']
         self.is_running = True
         self.game_manager = game_manager
         self.challenge_validator = Challenge_Validator(config)
