@@ -18,7 +18,7 @@ class API:
         self.session.headers.update({'Authorization': f'Bearer {config["token"]}'})
         self.session.headers.update({'User-Agent': f'Lichess-Bot/{config["version"]}'})
 
-        def set_user_agent(self, version: str, username: str) -> None:
+    def set_user_agent(self, version: str, username: str) -> None:
         self.session.headers.update({'User-Agent': f'BotLi/{version} user:{username}'})
 
     @retry(retry=retry_if_exception_type((requests.ConnectionError, requests.Timeout)),
