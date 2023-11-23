@@ -166,10 +166,9 @@ class Game_Manager(Thread):
         pending_challenge = Pending_Challenge()
         Thread(target=self.matchmaking.create_challenge, args=(pending_challenge,), daemon=True).start()
 
-        challenge_id = pending_challenge.get_challenge_id()
-        self.current_matchmaking_game_id = challenge_id
+        self.current_matchmaking_game_id = pending_challenge.get_challenge_id()
 
-        success, has_reached_rate_limit, is_misconfigured = pending_challenge.get_final_state()
+        success, has_reached_rate_limit, no_opponent, is_misconfigured = pending_challenge.get_final_state()
         self.is_rate_limited = False
 
         if success:
@@ -185,6 +184,8 @@ class Game_Manager(Thread):
             if is_misconfigured:
                 print('Matchmaking stopped due to misconfiguration.')
                 self.stop_matchmaking()
+            if no_opponent:
+                self._delay_matchmaking(self.matchmaking_delay)
 
     def _get_next_challenge_request(self) -> Challenge_Request | None:
         if not self.challenge_requests:

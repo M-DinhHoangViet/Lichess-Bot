@@ -3,7 +3,7 @@ from datetime import timedelta
 
 import chess
 from chess.polyglot import MemoryMappedReader
-from aliases import Challenge_ID
+from aliases import Challenge_ID, Has_Reached_Rate_Limit, Is_Misconfigured, No_Opponent, Success
 from enums import Challenge_Color, Variant, Perf_Type
 
 
