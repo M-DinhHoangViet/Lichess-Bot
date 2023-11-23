@@ -7,7 +7,7 @@ from aliases import Challenge_ID, Has_Reached_Rate_Limit, Is_Misconfigured, No_O
 from enums import Challenge_Color, Variant, Perf_Type
 
 
-@dataclass
+@dataclass(kw_only=True)
 class API_Challenge_Reponse:
     challenge_id: Challenge_ID | None = None
     was_accepted: bool = False
