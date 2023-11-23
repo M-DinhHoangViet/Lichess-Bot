@@ -7,7 +7,7 @@ from aliases import Challenge_ID, Has_Reached_Rate_Limit, Is_Misconfigured, No_O
 from enums import Challenge_Color, Variant, Perf_Type
 
 
-@dataclass(kw_only=True)
+@dataclass
 class API_Challenge_Reponse:
     challenge_id: Challenge_ID | None = None
     was_accepted: bool = False
@@ -63,12 +63,13 @@ class Chat_Message:
         return cls(username, text, room)
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Challenge_Response:
     challenge_id: Challenge_ID | None = None
-    success: bool = False
-    has_reached_rate_limit: bool = False
-    is_misconfigured: bool = False
+    success: Success = False
+    no_opponent: No_Opponent = False
+    has_reached_rate_limit: Has_Reached_Rate_Limit = False
+    is_misconfigured: Is_Misconfigured = False
 
 
 @dataclass(frozen=True)
