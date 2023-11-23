@@ -10,8 +10,8 @@ class Pending_Challenge:
         self._challenge_id: Challenge_ID | None = None
         self._finished_event = Event()
         self._success: Success = False
-        self._has_reached_rate_limit: Has_Reached_Rate_Limit = False
         self._no_opponent: No_Opponent = False
+        self._has_reached_rate_limit: Has_Reached_Rate_Limit = False
         self._is_misconfigured: Is_Misconfigured = False
 
     def get_challenge_id(self) -> Challenge_ID | None:
@@ -19,10 +19,10 @@ class Pending_Challenge:
         self._challenge_id_event.wait()
         return self._challenge_id
 
-    def get_final_state(self) -> tuple[Success, Has_Reached_Rate_Limit, No_Opponent, Is_Misconfigured]:
+   def get_final_state(self) -> tuple[Success, No_Opponent, Has_Reached_Rate_Limit, Is_Misconfigured]:
         ''' This is blocking '''
         self._finished_event.wait()
-        return self._success, self._has_reached_rate_limit, self._no_opponent, self._is_misconfigured
+        return self._success, self._no_opponent, self._has_reached_rate_limit, self._is_misconfigured
 
     def set_challenge_id(self, challenge_id: Challenge_ID) -> None:
         self._challenge_id = challenge_id
