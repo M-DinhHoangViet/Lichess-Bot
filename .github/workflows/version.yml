@@ -2,7 +2,7 @@ name: Versioning
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
    versioning:
