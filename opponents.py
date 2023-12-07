@@ -74,7 +74,7 @@ class Opponents:
         self.matchmaking_file = f'{username}_matchmaking.json'
         self.opponent_list = self._load(self.matchmaking_file)
         self.busy_bots: list[Bot] = []
-        self.last_opponent: tuple[Bot, Challenge_Color] | None = None
+        self.last_opponent: tuple[Bot, Challenge_Color]
 
     def get_opponent(self,
                      online_bots: list[Bot],
@@ -84,7 +84,7 @@ class Opponents:
         if not bots:
             raise NoOpponentException
 
-        for bot in sorted(bots, key=lambda bot: abs(bot.rating_diffs[matchmaking_type.perf_type])):
+        for bot in bots:
             if bot in self.busy_bots:
                 continue
 
@@ -97,8 +97,6 @@ class Opponents:
         self.busy_bots.clear()
 
     def add_timeout(self, success: bool, game_duration: timedelta, matchmaking_type: Matchmaking_Type) -> None:
-        assert self.last_opponent
-
         bot, color = self.last_opponent
         opponent = self._find(matchmaking_type.perf_type, bot.username)
         opponent_data = opponent.data[matchmaking_type.perf_type]
@@ -114,9 +112,10 @@ class Opponents:
         timeout *= matchmaking_type.multiplier * opponent_multiplier
 
         if opponent_data.release_time > datetime.now():
-            timeout += opponent_data.release_time - datetime.now()
+            opponent_data.release_time += timeout
+        else:
+            opponent_data.release_time = datetime.now() + timeout
 
-        opponent_data.release_time = datetime.now() + timeout
         release_str = opponent_data.release_time.isoformat(sep=' ', timespec='seconds')
         print(f'{bot.username} will not be challenged to a new game pair before {release_str}.')
 
@@ -132,8 +131,6 @@ class Opponents:
         self._save(self.matchmaking_file)
 
     def skip_bot(self) -> None:
-        assert self.last_opponent
-
         self.busy_bots.append(self.last_opponent[0])
 
     def reset_release_time(self, perf_type: Perf_Type) -> None:
@@ -156,7 +153,7 @@ class Opponents:
 
             return True
 
-        return list(filter(bot_filter, bots))
+        return sorted(filter(bot_filter, bots), key=lambda bot: abs(bot.rating_diffs[matchmaking_type.perf_type]))
 
     def _find(self, perf_type: Perf_Type, username: str) -> Opponent:
         try:
