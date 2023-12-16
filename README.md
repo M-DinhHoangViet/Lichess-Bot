@@ -1,4 +1,4 @@
-[![Docker Image CI](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/docker-image.yml/badge.svg)](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/docker-image.yml) [![Pylint](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/pylint.yml/badge.svg)](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/pylint.yml) [![Pyright](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/pyright.yml/badge.svg)](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/pyright.yml) 
+[![Docker Image CI](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/docker-image.yml/badge.svg)](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/docker-image.yml) [![Pylint & Pyright](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/py.yml/badge.svg)](https://github.com/M-DinhHoangViet/Lichess-Bot/actions/workflows/py.yml)
 # Features
 Supports:
 - Every variant and time control except for the correspondence
