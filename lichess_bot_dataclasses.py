@@ -176,11 +176,11 @@ class Game_Information:
 
     @property
     def white_opponent(self) -> chess.engine.Opponent:
-        return chess.engine.Opponent(self.white_name, self.white_title, self.white_rating, self.white_title == 'BOT')
+        return chess.engine.Opponent(self.white_name, self.white_title, self.white_rating, self.white_title == "BOT")
 
     @property
     def black_opponent(self) -> chess.engine.Opponent:
-        return chess.engine.Opponent(self.black_name, self.black_title, self.black_rating, self.black_title == 'BOT')
+        return chess.engine.Opponent(self.black_name, self.black_title, self.black_rating, self.black_title == "BOT")
 
 
 @dataclass
