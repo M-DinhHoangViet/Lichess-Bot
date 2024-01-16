@@ -4,9 +4,10 @@ COPY . .
 RUN apt-get update && apt-get upgrade -y
 RUN pip --no-cache-dir install -U pip && pip --no-cache-dir install -r requirements.txt
 
-RUN curl -sSL https://raw.githubusercontent.com/ppigazzini/stockfish-downloader/main/posix_helper.sh | sh -s
-RUN tar -xf stockfish-*.tar && rm stockfish-*.tar
-RUN mv official-stockfish/stockfish-* ./stockfish && rm -r stockfish
+# Stockfish - Depending on your CPU it may be necessary to pick a binary other than bmi2
+RUN wget https://abrok.eu/stockfish/latest/linux/stockfish_x64_bmi2.zip -O stockfish.zip
+RUN unzip stockfish.zip && rm stockfish.zip
+RUN mv stockfish_* ./stockfish && chmod +x ./stockfish
 
 # Fairy-Stockfish - Depending on your CPU it may be necessary to pick a binary other than bmi2
 # To use Fairy-Stockfish, uncomment the following lines and adjust config.yml.default accordingly
