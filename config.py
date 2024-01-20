@@ -275,7 +275,7 @@ def _check_messages(messages_section: dict) -> None:
             if not isinstance(messages_section[subsection[0]], subsection[1]):
                 raise TypeError(f'`messages` subsection {subsection[2]}')
 
-        if messages_section[subsection[0]].strip() == '!printeval':
+            if messages_section[subsection[0]].strip() == '!printeval':
                 print(f'Ignoring message "{subsection[0]}": "!printeval" is not allowed in messages.')
                 messages_section[messages_section[subsection[0]]] = None
 
