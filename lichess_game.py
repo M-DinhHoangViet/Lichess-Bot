@@ -45,10 +45,6 @@ class Lichess_Game:
         opponent = self.game_info.black_opponent if self.is_white else self.game_info.white_opponent
         self.engine = Engine.from_config(config['engines'][self._get_engine_key()], config['syzygy'], opponent)
         self.scores: list[chess.engine.PovScore | None] = []
-        consecutive_draw_moves = config['offer_draw']['consecutive_moves']
-        self.draw_scores: deque[chess.engine.PovScore | None] = deque(maxlen=consecutive_draw_moves)
-        consecutive_resign_moves = config['resign']['consecutive_moves']
-        self.resign_scores: deque[chess.engine.PovScore | None] = deque(maxlen=consecutive_resign_moves)
         self.last_message = 'No eval available yet.'
         self.last_pv: list[chess.Move] = []
 
@@ -483,7 +479,7 @@ class Lichess_Game:
     def _make_syzygy_move(self) -> Move_Response | None:
         assert self.syzygy_tablebase
 
-        if chess.popcount(self.board.occupied) > self.config['syzygy']['max_pieces']:
+        if chess.popcount(self.board.occupied) > self.config['syzygy']['max_pieces'] or self._has_mate_score():
             return
 
         best_moves: list[chess.Move] = []
@@ -605,7 +601,7 @@ class Lichess_Game:
         is_endgame = chess.popcount(self.board.occupied) <= max_pieces
         has_time = self._has_time(self.config['online_moves']['online_egtb']['min_time'])
 
-        if not is_endgame or not has_time:
+        if not is_endgame or not has_time or self._has_mate_score():
             return
 
         timeout = self.config['online_moves']['online_egtb']['timeout']
@@ -819,6 +815,13 @@ class Lichess_Game:
             return True
 
         return self.own_time >= min_time
+
+    def _has_mate_score(self) -> bool:
+        for score in filter(None, reversed(self.scores)):
+            mate = score.relative.mate()
+            return mate is not None and mate > 0
+
+        return False
 
     def _reduce_own_time(self, seconds: float) -> None:
         if self.is_white:
