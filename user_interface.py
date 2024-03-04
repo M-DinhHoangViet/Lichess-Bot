@@ -239,7 +239,7 @@ class UserInterface:
         print('Starting matchmaking ...')
         game_manager.start_matchmaking()
 
-    def _quit(self) -> None:
+    def _quit(self, game_manager: Game_Manager, event_handler: Event_Handler) -> None:
         self.is_running = False
         game_manager.stop()
         print('Terminating program ...')
@@ -247,7 +247,7 @@ class UserInterface:
         event_handler.stop()
         event_handler.join()
 
-    def _clear(self, game_manager: Game_Manager, event_handler: Event_Handler) -> None:
+    def _clear(self, game_manager: Game_Manager) -> None:
         game_manager.challenge_requests.clear()
         print('Challenge queue cleared.')
 

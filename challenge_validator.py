@@ -17,8 +17,8 @@ class Challenge_Validator:
         self.blacklist: list[str] = config.get('blacklist', [])
 
     def get_decline_reason(self, challenge_event: dict) -> Decline_Reason | None:
-        speed = challenge_event['challenge']['speed']
-        if speed: str == 'correspondence':
+        speed: str = challenge_event['challenge']['speed']
+        if speed == 'correspondence':
             print('Time control "Correspondence" is not supported by Lichess-Bot.')
             return Decline_Reason.TIME_CONTROL
 
