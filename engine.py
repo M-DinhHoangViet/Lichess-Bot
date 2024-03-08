@@ -6,7 +6,7 @@ import chess.engine
 
 
 class Engine:
-    def __init__(self, engine: chess.engine.SimpleEngine, ponder: bool, opponent: chess.engine.Opponent, opponent: chess.engine.Opponent) -> None:
+    def __init__(self, engine: chess.engine.SimpleEngine, ponder: bool, opponent: chess.engine.Opponent) -> None:
         self.engine = engine
         self.ponder = ponder
         self.opponent = opponent
